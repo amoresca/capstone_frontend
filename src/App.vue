@@ -8,6 +8,7 @@
       |
       <router-link v-if="isLoggedIn()" to="/logout">Logout</router-link>
     </div>
+    <div id="sidebar"></div>
     <router-view />
   </div>
 </template>

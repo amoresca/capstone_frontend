@@ -21,10 +21,15 @@
       <button v-on:click="openEditModal()">Edit</button>
     </p>
     <hr />
-    <button>Delete My Account</button>
+    <button v-on:click="deleteUser()">Delete My Account</button>
     <dialog>
       <form method="dialog">
         <h2>Edit Profile</h2>
+        <ul>
+          <li class="text-danger" v-for="error in errors" v-bind:key="error">
+            {{ error }}
+          </li>
+        </ul>
         <div class="form-group">
           <label>First Name:</label>
           <input type="text" class="form-control" v-model="user.first_name" />
@@ -50,6 +55,7 @@
             v-model="passwordConfirmation"
           />
         </div>
+        <button v-on:click.prevent="editUser()">Update</button>
         <button>Close</button>
       </form>
     </dialog>
@@ -65,6 +71,7 @@ export default {
       user: {},
       password: "",
       passwordConfirmation: "",
+      errors: [],
     };
   },
   created: function() {
@@ -77,6 +84,43 @@ export default {
   methods: {
     openEditModal: function() {
       document.querySelector("dialog").showModal();
+    },
+    editUser: function() {
+      var username = localStorage.getItem("username");
+      var params = {
+        email: this.user.email,
+        first_name: this.user.first_name,
+        last_name: this.user.last_name,
+        image_url: this.user.image_url,
+      };
+      if (this.password) {
+        params.password = this.password;
+        params.password_confirmation = this.passwordConfirmation;
+      }
+      axios
+        .patch(`/api/users/${username}`, params)
+        .then(response => {
+          console.log(response.data);
+          document.querySelector("dialog").close();
+          this.password = "";
+          this.passwordConfirmation = "";
+        })
+        .catch(error => {
+          this.errors = error.response.data.errors;
+        });
+    },
+    deleteUser: function() {
+      if (confirm("Are you sure you want to delete your account?")) {
+        axios
+          .delete(`/api/users/${this.user.username}`)
+          .then(response => {
+            console.log(response.data);
+            this.$router.push("/logout");
+          })
+          .catch(error => {
+            console.log(error.response.data);
+          });
+      }
     },
   },
 };

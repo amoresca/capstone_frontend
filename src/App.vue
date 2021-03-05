@@ -4,11 +4,13 @@
       <router-link to="/">Home</router-link> |
       <router-link v-if="!isLoggedIn()" to="/signup">Signup</router-link> |
       <router-link v-if="!isLoggedIn()" to="/login">Login</router-link> |
-      <router-link v-if="isLoggedIn()" to="/my-account">My Account</router-link>
-      |
       <router-link v-if="isLoggedIn()" to="/logout">Logout</router-link>
     </div>
-    <div id="sidebar"></div>
+    <div id="sidebar" v-if="isLoggedIn()">
+      <router-link to="/my-account">My Account</router-link> |
+      <router-link to="/friends">Friends</router-link> |
+      <router-link to="/requests">Requests</router-link>
+    </div>
     <router-view />
   </div>
 </template>
@@ -41,6 +43,10 @@ export default {
   methods: {
     isLoggedIn: function() {
       return localStorage.getItem("jwt");
+    },
+    isCurrentUser: function() {
+      var username = localStorage.getItem("username");
+      return username == this.$route.params.username;
     },
   },
 };

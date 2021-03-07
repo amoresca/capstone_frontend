@@ -8,7 +8,10 @@
     </div>
     <div id="sidebar" v-if="isLoggedIn()">
       <router-link to="/my-account">My Account</router-link> |
-      <router-link to="/friends">Friends</router-link> |
+      <router-link :to="`/users/${username}`" key="$route.path"
+        >My Items</router-link
+      >
+      | <router-link to="/friends">Friends</router-link> |
       <router-link to="/requests">Requests</router-link>
     </div>
     <router-view />
@@ -40,13 +43,20 @@
 
 <script>
 export default {
+  data: function() {
+    return {
+      username: "",
+    };
+  },
+  created: function() {
+    this.username = localStorage.getItem("username");
+  },
   methods: {
     isLoggedIn: function() {
       return localStorage.getItem("jwt");
     },
     isCurrentUser: function() {
-      var username = localStorage.getItem("username");
-      return username == this.$route.params.username;
+      return this.username == this.$route.params.username;
     },
   },
 };

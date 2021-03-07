@@ -6,8 +6,12 @@
     <label for="">Search Friends</label
     ><input type="text" v-model="searchFriends" /><br />
     <div v-for="friend in filterBy(friends, searchFriends)" :key="friend.id">
-      <img :src="friend.image_url" alt="" width="50" />
-      <h3>{{ friend.first_name }} {{ friend.last_name }}</h3>
+      <router-link :to="`/users/${friend.username}`"
+        ><img :src="friend.image_url" alt="" width="50"
+      /></router-link>
+      <router-link :to="`/users/${friend.username}`"
+        ><h3>{{ friend.first_name }} {{ friend.last_name }}</h3></router-link
+      >
       <p>{{ friend.username }}</p>
       <button v-on:click="deleteFriendship(friend)">
         Remove Friend
@@ -88,7 +92,6 @@ export default {
   created: function() {
     axios.get("/api/friendships").then(response => {
       this.friends = response.data;
-      // console.log(response.data);
     });
   },
   methods: {

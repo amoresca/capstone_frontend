@@ -7,10 +7,10 @@
         <h2>Add an Item</h2>
         <form v-on:submit.prevent="createItem()">
           <label for="">Name: </label><input type="text" v-model="newName" />
-          <label for="">Image URL: </label
-          ><input type="text" v-model="newImage" />
-          <label for="">Category: </label
-          ><select name="" id="" v-model="newCategory">
+          <label for="">Image URL: </label>
+          <input type="text" v-model="newImage" />
+          <label for="">Category: </label>
+          <select name="" id="" v-model="newCategory">
             <option value="">Choose a Category</option>
             <option
               v-for="category in categories"
@@ -52,7 +52,12 @@
       >
         <h3>{{ item.name }}</h3>
         <img :src="item.image_url" alt="" width="100" /><br />
-        <button v-if="$parent.isCurrentUser()">Edit</button>
+        <button v-if="$parent.isCurrentUser()" v-on:click="openEditModal(item)">
+          Edit
+        </button>
+        <button v-if="$parent.isCurrentUser()" v-on:click="destroyItem(item)">
+          Delete
+        </button>
         <div v-if="!item.available && $parent.isCurrentUser()">
           <strong>Currently borrowed by:</strong>
         </div>
@@ -70,6 +75,43 @@
         <img :src="item.user.image_url" alt="" width="50" />
       </div>
     </div>
+
+    <dialog>
+      <form method="dialog">
+        <h2>Edit Item</h2>
+        <ul>
+          <li class="text-danger" v-for="error in errors" v-bind:key="error">
+            {{ error }}
+          </li>
+        </ul>
+        <div class="form-group">
+          <label>Name:</label>
+          <input type="text" class="form-control" v-model="currentItem.name" />
+        </div>
+        <div class="form-group">
+          <label>Image URL:</label>
+          <input
+            type="text"
+            class="form-control"
+            v-model="currentItem.image_url"
+          />
+        </div>
+        <div class="form-group" v-if="currentItem">
+          <label for="">Category: </label>
+          <select name="" id="" v-model="currentItem.category.id">
+            <option value="">Choose a Category</option>
+            <option
+              v-for="category in categories"
+              :value="category.id"
+              :key="category.id"
+              >{{ category.name }}</option
+            ></select
+          >
+        </div>
+        <button v-on:click.prevent="editItem()">Update</button>
+        <button>Close</button>
+      </form>
+    </dialog>
   </div>
 </template>
 
@@ -95,7 +137,8 @@ export default {
       newImage: "",
       searchName: "",
       searchCategory: 0,
-      errors: [],
+      currentItem: "",
+      errors: []
     };
   },
   created: function() {
@@ -108,8 +151,8 @@ export default {
   watch: {
     $route: {
       handler: "getUser",
-      immediate: true,
-    },
+      immediate: true
+    }
   },
   methods: {
     getUser: function() {
@@ -125,10 +168,29 @@ export default {
       var params = {
         name: this.newName,
         image_url: this.newImage,
-        category_id: this.newCategory,
+        category_id: this.newCategory
       };
-      axios.post("/api/items", params);
+      axios.post("/api/items", params).then(response => {
+        console.log(response.data);
+        this.user.items.unshift(response.data);
+        this.newName = "";
+        this.newCategory = "";
+        this.newImage = "";
+      });
     },
-  },
+    openEditModal: function(item) {
+      this.currentItem = item;
+      console.log(this.currentItem);
+      document.querySelector("dialog").showModal();
+    },
+    updateItem: function() {
+      axios.patch(`/api/items/${this.currentItem.id}`).then(response => {
+        console.log(response.data);
+      });
+    },
+    destroyItem: function() {
+      console.log("destroy");
+    }
+  }
 };
 </script>

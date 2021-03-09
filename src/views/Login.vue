@@ -44,7 +44,7 @@ export default {
             "Bearer " + response.data.jwt;
           localStorage.setItem("jwt", response.data.jwt);
           localStorage.setItem("username", response.data.username);
-          this.$router.push("/");
+          this.$router.push(`/users/${response.data.username}`);
         })
         .catch(error => {
           console.log(error.response);

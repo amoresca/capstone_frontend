@@ -7,6 +7,7 @@ import Logout from "../views/Logout.vue";
 import MyAccount from "../views/MyAccount.vue";
 import UsersShow from "../views/UsersShow.vue";
 import FriendshipsIndex from "../views/FriendshipsIndex.vue";
+import ItemsIndex from "../views/ItemsIndex.vue";
 import Requests from "../views/Requests.vue";
 
 Vue.use(VueRouter);
@@ -19,6 +20,7 @@ const routes = [
   { path: "/my-account", name: "my-account", component: MyAccount },
   { path: "/users/:username", name: "users-show", component: UsersShow },
   { path: "/friends", name: "friendships-index", component: FriendshipsIndex },
+  { path: "/items", name: "items-index", component: ItemsIndex },
   { path: "/requests", name: "requests", component: Requests },
 ];
 

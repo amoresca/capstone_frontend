@@ -12,6 +12,7 @@
         >My Items</router-link
       >
       | <router-link to="/friends">Friends</router-link> |
+      <router-link to="/items">Friends' Items</router-link> |
       <router-link to="/requests">Requests</router-link>
     </div>
     <router-view />
@@ -45,7 +46,7 @@
 export default {
   data: function() {
     return {
-      username: "",
+      username: ""
     };
   },
   created: function() {
@@ -57,7 +58,7 @@ export default {
     },
     isCurrentUser: function() {
       return this.username == this.$route.params.username;
-    },
-  },
+    }
+  }
 };
 </script>

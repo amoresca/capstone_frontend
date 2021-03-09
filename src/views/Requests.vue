@@ -56,7 +56,7 @@ export default {
     return {
       requests: "",
       alert: "",
-      errors: [],
+      errors: []
     };
   },
   created: function() {
@@ -71,6 +71,19 @@ export default {
         .patch(`/api/borrow-requests/${request.id}`, { status: "accepted" })
         .then(response => {
           this.alert = response.data.message;
+          var index = this.requests.borrow_requests.indexOf(request);
+          this.requests.borrow_requests.splice(index, 1);
+        })
+        .catch(error => {
+          console.log(error.response.data);
+        });
+    },
+    rejectBorrowRequest: function(request) {
+      axios
+        .delete(`/api/borrow-requests/${request.id}`)
+        .then(response => {
+          console.log(response.data);
+          this.alert = "Borrow request rejected.";
           var index = this.requests.borrow_requests.indexOf(request);
           this.requests.borrow_requests.splice(index, 1);
         })
@@ -102,7 +115,7 @@ export default {
         .catch(error => {
           console.log(error.response.data);
         });
-    },
-  },
+    }
+  }
 };
 </script>

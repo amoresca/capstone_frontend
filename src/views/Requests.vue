@@ -62,7 +62,7 @@ export default {
   created: function() {
     axios.get("/api/borrow-requests").then(response => {
       this.requests = response.data;
-      console.log(response.data);
+      // console.log(response.data);
     });
   },
   methods: {

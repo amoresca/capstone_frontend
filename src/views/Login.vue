@@ -28,14 +28,14 @@ export default {
     return {
       email: "",
       password: "",
-      errors: [],
+      errors: []
     };
   },
   methods: {
     submit: function() {
       var params = {
         email: this.email,
-        password: this.password,
+        password: this.password
       };
       axios
         .post("/api/sessions", params)
@@ -44,6 +44,18 @@ export default {
             "Bearer " + response.data.jwt;
           localStorage.setItem("jwt", response.data.jwt);
           localStorage.setItem("username", response.data.username);
+          axios
+            .get(`/api/users/${response.data.username}`)
+            .then(response => {
+              // console.log(response.data);
+              this.$parent.currentUser.id = response.data.id;
+              this.$parent.currentUser.username = response.data.username;
+              this.$parent.currentUser.first_name = response.data.first_name;
+              this.$parent.currentUser.last_name = response.data.last_name;
+            })
+            .catch(error => {
+              console.log(error.response);
+            });
           this.$router.push(`/users/${response.data.username}`);
         })
         .catch(error => {
@@ -52,7 +64,7 @@ export default {
           this.email = "";
           this.password = "";
         });
-    },
-  },
+    }
+  }
 };
 </script>

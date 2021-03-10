@@ -7,6 +7,15 @@
       <router-link v-if="isLoggedIn()" to="/logout">Logout</router-link>
     </div>
     <div id="sidebar" v-if="isLoggedIn()">
+      <img
+        src="https://immedilet-invest.com/wp-content/uploads/2016/01/user-placeholder.jpg"
+        alt=""
+        width="50"
+      /><strong
+        >{{ currentUser.first_name }} {{ currentUser.last_name }}</strong
+      >
+      @{{ currentUser.username }}
+      <hr />
       <router-link to="/my-account">My Account</router-link> |
       <router-link :to="`/users/${username}`" key="$route.path"
         >My Items</router-link
@@ -43,14 +52,30 @@
 </style>
 
 <script>
+import axios from "axios";
 export default {
   data: function() {
     return {
-      username: ""
+      username: "",
+      currentUser: {}
     };
   },
   created: function() {
     this.username = localStorage.getItem("username");
+    if (this.username) {
+      axios
+        .get(`/api/users/${this.username}`)
+        .then(response => {
+          // console.log(response.data);
+          this.currentUser.id = response.data.id;
+          this.currentUser.username = response.data.username;
+          this.currentUser.first_name = response.data.first_name;
+          this.currentUser.last_name = response.data.last_name;
+        })
+        .catch(error => {
+          console.log(error.response);
+        });
+    }
   },
   methods: {
     isLoggedIn: function() {

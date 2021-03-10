@@ -71,14 +71,14 @@ export default {
       user: {},
       password: "",
       passwordConfirmation: "",
-      errors: [],
+      errors: []
     };
   },
   created: function() {
     var username = localStorage.getItem("username");
     axios.get(`/api/users/${username}`).then(response => {
       this.user = response.data;
-      console.log(response.data);
+      // console.log(response.data);
     });
   },
   methods: {
@@ -91,7 +91,7 @@ export default {
         email: this.user.email,
         first_name: this.user.first_name,
         last_name: this.user.last_name,
-        image_url: this.user.image_url,
+        image_url: this.user.image_url
       };
       if (this.password) {
         params.password = this.password;
@@ -121,7 +121,7 @@ export default {
             console.log(error.response.data);
           });
       }
-    },
-  },
+    }
+  }
 };
 </script>

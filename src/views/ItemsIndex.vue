@@ -17,7 +17,7 @@
       </button>
     </div>
     <h1>Friends' Items</h1>
-    <div class="items" v-if="items.length > 0">
+    <div class="items" v-if="items">
       <label for="">Search by name: </label
       ><input type="text" v-model="searchName" />
       <label for="">Category: </label
@@ -30,7 +30,27 @@
           >{{ category.name }}</option
         >
       </select>
-      <div
+      <div v-for="(category, name) in items" :key="category">
+        <h2>
+          <u>{{ name }}</u>
+        </h2>
+        <div v-for="item in category" :key="item.id">
+          <h3>{{ item.name }}</h3>
+          <img :src="item.image_url" alt="" width="100" /><br />
+          <router-link :to="`/users/${item.user.username}`"
+            ><strong
+              >Owner: {{ item.user.first_name }} {{ item.user.last_name }}
+              <img
+                :src="item.user.image_url"
+                alt=""
+                width="50"/></strong></router-link
+          ><br />
+          <button v-on:click="openShowModal(item)">
+            View Info
+          </button>
+        </div>
+      </div>
+      <!-- <div
         v-for="item in filterBy(
           filterBy(items, searchCategory, 'category.id'),
           searchName,
@@ -52,7 +72,7 @@
         <button v-on:click="openShowModal(item)">
           View Info
         </button>
-      </div>
+      </div> -->
     </div>
     <p v-else>
       Looks like you haven't added any friends yet.<br />
@@ -107,7 +127,7 @@ export default {
   methods: {
     openShowModal: function(item) {
       this.currentItem = item;
-      // console.log(this.currentItem);
+      console.log(item);
       document.querySelector("dialog").showModal();
     },
     createBorrowRequest: function(item) {

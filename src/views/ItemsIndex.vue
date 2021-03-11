@@ -30,7 +30,7 @@
           >{{ category.name }}</option
         >
       </select>
-      <div v-for="(category, name) in items" :key="category">
+      <div v-for="(category, name) in items" :key="name">
         <h2>
           <u>{{ name }}</u>
         </h2>
@@ -45,9 +45,7 @@
                 alt=""
                 width="50"/></strong></router-link
           ><br />
-          <button v-on:click="openShowModal(item)">
-            View Info
-          </button>
+          <button v-on:click="openShowModal(item)">View Info</button>
         </div>
       </div>
       <!-- <div
@@ -127,8 +125,8 @@ export default {
   methods: {
     openShowModal: function(item) {
       this.currentItem = item;
-      console.log(item);
-      document.querySelector("dialog").showModal();
+      console.log(this.currentItem);
+      // document.querySelector("dialog").showModal();
     },
     createBorrowRequest: function(item) {
       axios

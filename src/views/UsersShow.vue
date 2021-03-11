@@ -74,6 +74,7 @@
       >
         <h3>{{ item.name }}</h3>
         <img :src="item.image_url" alt="" width="100" /><br />
+        <p>{{ item.category.name }}</p>
         <button v-if="$parent.isCurrentUser()" v-on:click="openEditModal(item)">
           Edit
         </button>

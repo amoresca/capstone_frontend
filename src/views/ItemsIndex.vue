@@ -41,6 +41,7 @@
       >
         <h3>{{ item.name }}</h3>
         <img :src="item.image_url" alt="" width="100" /><br />
+        <p>{{ item.category.name }}</p>
         <router-link :to="`/users/${item.user.username}`"
           ><strong
             >Owner: {{ item.user.first_name }} {{ item.user.last_name }}

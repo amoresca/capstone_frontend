@@ -44,6 +44,7 @@ export default {
             "Bearer " + response.data.jwt;
           localStorage.setItem("jwt", response.data.jwt);
           localStorage.setItem("username", response.data.username);
+          this.$parent.username = response.data.username;
           axios
             .get(`/api/users/${response.data.username}`)
             .then(response => {

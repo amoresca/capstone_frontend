@@ -53,6 +53,7 @@ export default {
               this.$parent.currentUser.username = response.data.username;
               this.$parent.currentUser.first_name = response.data.first_name;
               this.$parent.currentUser.last_name = response.data.last_name;
+              this.$parent.currentUser.image_url = response.data.image_url;
             })
             .catch(error => {
               console.log(error.response);

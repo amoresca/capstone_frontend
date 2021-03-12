@@ -43,33 +43,61 @@
             </li>
             <li class="nav-item" v-if="isLoggedIn()">
               <router-link
-                class="nav-link smooth-scroll"
+                class="nav-link"
                 :to="`/users/${username}`"
                 key="$route.path"
                 ><i class="fas fa-boxes fs-14 mr-5"></i> My Stuff</router-link
               ></li
             >
             <li class="nav-item" v-if="isLoggedIn()">
-              <router-link class="nav-link smooth-scroll" to="/friends"
+              <router-link class="nav-link" to="/friends"
                 ><i class="fas fa-users fs-14 mr-5"></i> Friends</router-link
               ></li
             >
             <li class="nav-item" v-if="isLoggedIn()">
-              <router-link class="nav-link smooth-scroll" to="/items"
+              <router-link class="nav-link" to="/items"
                 ><i class="fas fa-people-arrows fs-14 mr-5"></i>
                 Borrow</router-link
               ></li
             >
             <li class="nav-item" v-if="isLoggedIn()">
-              <router-link class="nav-link smooth-scroll" to="/requests"
+              <router-link class="nav-link" to="/requests"
                 ><i class="fas fa-bell fs-14 mr-5"></i> Requests</router-link
               ></li
             >
-            <li class="nav-item" v-if="isLoggedIn()">
-              <router-link class="nav-link smooth-scroll" to="/my-account"
+            <li class="nav-item dropdown" v-if="isLoggedIn()">
+              <router-link
+                class="nav-link dropdown-toggle"
+                id="dropdown-center-nav"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+                to="/my-account"
                 ><i class="fas fa-cog fs-14 mr-5"></i> My Account</router-link
-              ></li
-            > </ul
+              >
+              <div class="dropdown-menu" aria-labelledby="dropdown-center-nav">
+                <div class="dropdown-item promo-left">
+                  <div class="promo-container-big">
+                    <div class="promo-big">
+                      <img
+                        :src="currentUser.image_url"
+                        alt=""
+                        class="promo-box-image circle mb-25 raised-sm"
+                      /> </div
+                    ><!-- / promo-big -->
+                    <h6 class="box-title mb-15"
+                      >{{ currentUser.first_name }}
+                      {{ currentUser.last_name }}</h6
+                    >
+                    <p>@{{ currentUser.username }}</p></div
+                  ><!-- / promo-container -->
+                </div>
+                <div class="dropdown-divider"></div>
+                <router-link class="dropdown-item" to="/my-account"
+                  >Edit Settings</router-link
+                > </div
+              ><!-- / dropdown-menu --></li
+            ></ul
           ><!-- / navbar-nav -->
 
           <ul class="navbar-button p-0 m-0 ml-30">
@@ -139,7 +167,25 @@
   </div>
 </template>
 
-<style></style>
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+#nav {
+  padding: 30px;
+}
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+#nav a.router-link-exact-active {
+  color: #42b983;
+}
+</style>
 
 <script>
 import axios from "axios";
@@ -161,6 +207,7 @@ export default {
           this.currentUser.username = response.data.username;
           this.currentUser.first_name = response.data.first_name;
           this.currentUser.last_name = response.data.last_name;
+          this.currentUser.image_url = response.data.image_url;
         })
         .catch(error => {
           console.log(error.response);

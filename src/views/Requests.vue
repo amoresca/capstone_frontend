@@ -80,7 +80,9 @@
                     ></div
                   ><!-- / promo-container -->
                 </div>
-                <h2>Waitlist</h2>
+                <h3 class="mt-50"
+                  ><i class="fas fa-clipboard-list mr-5"></i> Waitlist</h3
+                >
                 <div
                   class="promo-box promo-left"
                   v-for="request in orderBy(
@@ -105,15 +107,15 @@
                     </h5>
                     <h6 class="box-description mb-15">{{
                       request.item.name
-                    }}</h6>
-                    <img
-                      :src="request.item.image_url"
-                      alt=""
-                      class="rounded-10 raised-sm mb-15"/></div
+                    }}</h6> </div
                   ><!-- / promo-container -->
                 </div>
               </div>
-              <div v-else><h5>You have no pending borrow requests.</h5></div>
+              <div v-else
+                ><h5 class="mt-80"
+                  >You have no pending borrow requests.</h5
+                ></div
+              >
             </div>
             <div class="col-lg-6 pl-lg-5">
               <h2 class="mb-80"

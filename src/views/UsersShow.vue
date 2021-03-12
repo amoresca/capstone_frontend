@@ -224,7 +224,7 @@ export default {
       });
     },
     toggleForm: function() {
-      this.showForm = true;
+      this.showForm = !this.showForm;
     },
     createItem: function() {
       var params = {

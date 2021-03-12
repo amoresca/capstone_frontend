@@ -3397,35 +3397,35 @@ textarea.form-control {
 
 /*--- input placeholder color ---*/
 ::-webkit-input-placeholder {
-  color: #c9d8f4 !important;
+  color: #818fab !important;
 }
 
 ::-moz-placeholder {
-  color: #c9d8f4 !important;
+  color: #818fab !important;
 }
 
 :-moz-placeholder {
-  color: #c9d8f4 !important;
+  color: #818fab !important;
 }
 
 :-ms-input-placeholder {
-  color: #c9d8f4 !important;
+  color: #818fab !important;
 }
 
 .fc-inverse::-webkit-input-placeholder {
-  color: #c9d8f4 !important;
+  color: #818fab !important;
 }
 
 .fc-inverse::-moz-placeholder {
-  color: #c9d8f4 !important;
+  color: #818fab !important;
 }
 
 .fc-inverse:-moz-placeholder {
-  color: #c9d8f4 !important;
+  color: #818fab !important;
 }
 
 .fc-inverse:-ms-input-placeholder {
-  color: #c9d8f4 !important;
+  color: #818fab !important;
 }
 
 .error::-webkit-input-placeholder {

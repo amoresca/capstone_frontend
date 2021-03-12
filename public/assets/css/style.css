@@ -862,6 +862,10 @@ form label {
   transition: 0.2s ease-in-out;
 }
 
+.table tr:first-child td {
+  border-top: 0;
+}
+
 .table tr {
   background-color: #f5f9fe;
   -moz-transition: 0.2s ease-in-out;
@@ -7332,6 +7336,7 @@ header h1.fixed-title {
 .main-container {
   position: relative;
   background: #f5f9fe;
+  min-height: calc(100vh - 450px);
 }
 
 .pnf-page-title {

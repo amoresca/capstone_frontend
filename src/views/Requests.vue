@@ -39,7 +39,11 @@
               <div v-if="requests.borrow_requests.length > 0">
                 <div
                   class="promo-box promo-left"
-                  v-for="request in requests.borrow_requests"
+                  v-for="request in filterBy(
+                    requests.borrow_requests,
+                    true,
+                    'item.available'
+                  )"
                   :key="request.id"
                 >
                   <div class="promo-container-big">
@@ -75,8 +79,40 @@
                       >Reject</button
                     ></div
                   ><!-- / promo-container -->
-                </div></div
-              >
+                </div>
+                <h2>Waitlist</h2>
+                <div
+                  class="promo-box promo-left"
+                  v-for="request in orderBy(
+                    filterBy(requests.borrow_requests, false, 'item.available'),
+                    'created_at'
+                  )"
+                  :key="request.id"
+                >
+                  <div class="promo-container-big">
+                    <div class="promo-big">
+                      <router-link :to="`/users/${request.requestor.username}`"
+                        ><img
+                          :src="request.requestor.image_url"
+                          alt=""
+                          class="promo-box-image mb-25 raised-sm circle"
+                      /></router-link> </div
+                    ><!-- / promo-big -->
+                    <h5 class="box-title mb-15"
+                      >{{ request.requestor.first_name }}
+                      {{ request.requestor.last_name }}
+                      wants to borrow:
+                    </h5>
+                    <h6 class="box-description mb-15">{{
+                      request.item.name
+                    }}</h6>
+                    <img
+                      :src="request.item.image_url"
+                      alt=""
+                      class="rounded-10 raised-sm mb-15"/></div
+                  ><!-- / promo-container -->
+                </div>
+              </div>
               <div v-else><h5>You have no pending borrow requests.</h5></div>
             </div>
             <div class="col-lg-6 pl-lg-5">
@@ -145,7 +181,7 @@ export default {
   created: function() {
     axios.get("/api/borrow-requests").then(response => {
       this.requests = response.data;
-      // console.log(response.data);
+      console.log(response.data);
     });
   },
   methods: {

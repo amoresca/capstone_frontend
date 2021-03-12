@@ -72,6 +72,9 @@
         >
           Request to Borrow
         </button>
+        <button v-else v-on:click.prevent="createWaitlistRequest(currentItem)"
+          >Add Me to Waitlist</button
+        >
         <hr />
         <button>Close</button>
       </form>
@@ -117,6 +120,18 @@ export default {
         .then(response => {
           console.log(response.data);
           this.alert = "Borrow request sent!";
+          document.querySelector("dialog").close();
+        })
+        .catch(error => {
+          this.errors = error.response.data.errors;
+        });
+    },
+    createWaitlistRequest: function(item) {
+      axios
+        .post("/api/borrow-requests", { item_id: item.id })
+        .then(response => {
+          console.log(response.data);
+          this.alert = "You've been added to the waitlist.";
           document.querySelector("dialog").close();
         })
         .catch(error => {

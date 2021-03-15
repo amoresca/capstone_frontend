@@ -56,7 +56,7 @@ export default {
 
           // Store user info in localstorage
           localStorage.setItem("jwt", response.data.jwt);
-          this.setCurrentUser(response.data);
+          this.$parent.setCurrentUser(response.data);
 
           // Redirect to My Items page
           this.$router.push(`/users/${response.data.username}`);
@@ -67,15 +67,6 @@ export default {
           this.email = "";
           this.password = "";
         });
-    },
-    setCurrentUser: function(data) {
-      var userObject = {
-        username: data.username,
-        first_name: data.first_name,
-        last_name: data.last_name,
-        image_url: data.image_url
-      };
-      localStorage.setItem("user", JSON.stringify(userObject));
     }
   }
 };

@@ -198,10 +198,9 @@ export default {
       axios
         .patch(`/api/users/${username}`, params)
         .then(response => {
-          console.log(response.data);
-          this.$emit("editUser");
-          
-          // Close the modal and reset password fields
+          // console.log(response.data);
+          this.$parent.setCurrentUser(response.data);
+
           document.querySelector("dialog").close();
           this.password = "";
           this.passwordConfirmation = "";

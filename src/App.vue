@@ -193,6 +193,15 @@ export default {
     isCurrentUser: function() {
       return this.username == this.$route.params.username;
     },
+    setCurrentUser: function(data) {
+      var userObject = {
+        username: data.username,
+        first_name: data.first_name,
+        last_name: data.last_name,
+        image_url: data.image_url
+      };
+      localStorage.setItem("user", JSON.stringify(userObject));
+    },
     currentUser: function() {
       return JSON.parse(localStorage.user);
     }

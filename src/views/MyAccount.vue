@@ -173,7 +173,7 @@ export default {
     };
   },
   created: function() {
-    var username = localStorage.getItem("username");
+    var username = this.$parent.currentUser().username;
     axios.get(`/api/users/${username}`).then(response => {
       this.user = response.data;
       // console.log(response.data);
@@ -184,7 +184,7 @@ export default {
       document.querySelector("dialog").showModal();
     },
     editUser: function() {
-      var username = localStorage.getItem("username");
+      var username = this.$parent.currentUser().username;
       var params = {
         email: this.user.email,
         first_name: this.user.first_name,
@@ -199,6 +199,9 @@ export default {
         .patch(`/api/users/${username}`, params)
         .then(response => {
           console.log(response.data);
+          this.$emit("editUser");
+          
+          // Close the modal and reset password fields
           document.querySelector("dialog").close();
           this.password = "";
           this.passwordConfirmation = "";

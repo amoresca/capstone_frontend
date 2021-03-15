@@ -44,7 +44,7 @@
             <li class="nav-item" v-if="isLoggedIn()">
               <router-link
                 class="nav-link"
-                :to="`/users/${username}`"
+                :to="`/users/${currentUser().username}`"
                 key="$route.path"
                 ><i class="fas fa-boxes fs-14 mr-5"></i> My Stuff</router-link
               ></li
@@ -80,16 +80,16 @@
                   <div class="promo-container-big">
                     <div class="promo-big">
                       <img
-                        :src="currentUser.image_url"
+                        :src="currentUser().image_url"
                         alt=""
                         class="promo-box-image circle mb-25 raised-sm"
                       /> </div
                     ><!-- / promo-big -->
                     <h6 class="box-title mb-15"
-                      >{{ currentUser.first_name }}
-                      {{ currentUser.last_name }}</h6
+                      >{{ currentUser().first_name }}
+                      {{ currentUser().last_name }}</h6
                     >
-                    <p>@{{ currentUser.username }}</p></div
+                    <p>@{{ currentUser().username }}</p></div
                   ><!-- / promo-container -->
                 </div>
                 <div class="dropdown-divider"></div>
@@ -178,18 +178,14 @@
 </style>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
 export default {
   data: function() {
     return {
-      username: "",
-      currentUser: {}
+      username: ""
     };
   },
-  created: function() {
-    this.username = localStorage.getItem("username");
-    this.setCurrentUser();
-  },
+  created: function() {},
   methods: {
     isLoggedIn: function() {
       return localStorage.getItem("jwt");
@@ -197,20 +193,8 @@ export default {
     isCurrentUser: function() {
       return this.username == this.$route.params.username;
     },
-    setCurrentUser: function() {
-      axios
-        .get(`/api/users/${this.username}`)
-        .then(response => {
-          // console.log(response.data);
-          this.currentUser.id = response.data.id;
-          this.currentUser.username = response.data.username;
-          this.currentUser.first_name = response.data.first_name;
-          this.currentUser.last_name = response.data.last_name;
-          this.currentUser.image_url = response.data.image_url;
-        })
-        .catch(error => {
-          console.log(error.response);
-        });
+    currentUser: function() {
+      return JSON.parse(localStorage.user);
     }
   }
 };

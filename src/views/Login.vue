@@ -1,8 +1,8 @@
 <template>
   <div class="login">
-    <div class="main-container"
-      ><section id="signup" class="lg"
-        ><div class="container">
+    <div class="main-container">
+      <section id="signup" class="lg">
+        <div class="container">
           <form v-on:submit.prevent="submit()">
             <h1>Login</h1>
             <ul>
@@ -23,8 +23,10 @@
               <input type="password" class="form-control" v-model="password" />
             </div>
             <input type="submit" class="btn btn-primary" value="Submit" />
-          </form> </div></section
-    ></div>
+          </form>
+        </div>
+      </section>
+    </div>
   </div>
 </template>
 
@@ -48,24 +50,15 @@ export default {
       axios
         .post("/api/sessions", params)
         .then(response => {
+          // Set default header
           axios.defaults.headers.common["Authorization"] =
             "Bearer " + response.data.jwt;
+
+          // Store user info in localstorage
           localStorage.setItem("jwt", response.data.jwt);
-          localStorage.setItem("username", response.data.username);
-          this.$parent.username = response.data.username;
-          axios
-            .get(`/api/users/${response.data.username}`)
-            .then(response => {
-              // console.log(response.data);
-              this.$parent.currentUser.id = response.data.id;
-              this.$parent.currentUser.username = response.data.username;
-              this.$parent.currentUser.first_name = response.data.first_name;
-              this.$parent.currentUser.last_name = response.data.last_name;
-              this.$parent.currentUser.image_url = response.data.image_url;
-            })
-            .catch(error => {
-              console.log(error.response);
-            });
+          this.setCurrentUser(response.data);
+
+          // Redirect to My Items page
           this.$router.push(`/users/${response.data.username}`);
         })
         .catch(error => {
@@ -74,6 +67,15 @@ export default {
           this.email = "";
           this.password = "";
         });
+    },
+    setCurrentUser: function(data) {
+      var userObject = {
+        username: data.username,
+        first_name: data.first_name,
+        last_name: data.last_name,
+        image_url: data.image_url
+      };
+      localStorage.setItem("user", JSON.stringify(userObject));
     }
   }
 };

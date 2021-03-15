@@ -210,12 +210,6 @@ export default {
       // console.log(response.data);
     });
   },
-  // watch: {
-  //   $route: {
-  //     handler: "getUser",
-  //     immediate: true
-  //   }
-  // },
   methods: {
     getUser: function() {
       axios.get(`/api/users/${this.$route.params.username}`).then(response => {

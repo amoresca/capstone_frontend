@@ -3,7 +3,6 @@
     <header class="pt-200 pb-0 bg-primary dark">
       <div class="container">
         <h1>Requests</h1>
-        <h5 class="mb-30">Incoming!</h5>
       </div>
       <img
         src="/assets/images/angle-light.svg"
@@ -80,9 +79,17 @@
                     ></div
                   ><!-- / promo-container -->
                 </div>
-                <h3 class="mt-50"
-                  ><i class="fas fa-clipboard-list mr-5"></i> Waitlist</h3
-                >
+                <h3 class="mt-50 mb-20"
+                  ><i class="fas fa-clipboard-list mr-5"></i> Waitlist
+                  <a
+                    href="#x"
+                    class="btn btn-sm btn-icon btn-info btn-circle float-right"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title=""
+                    data-original-title="Tooltip on top"
+                    ><i class="fas fa-question"></i></a
+                ></h3>
                 <div
                   class="promo-box promo-left"
                   v-for="request in orderBy(

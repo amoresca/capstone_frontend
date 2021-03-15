@@ -121,17 +121,7 @@
         </div></div
       > </nav
     ><!-- / navbar -->
-    <!-- <div id="sidebar" v-if="isLoggedIn()">
-      <img
-        src="https://immedilet-invest.com/wp-content/uploads/2016/01/user-placeholder.jpg"
-        alt=""
-        width="50"
-      /><strong
-        >{{ currentUser.first_name }} {{ currentUser.last_name }}</strong
-      >
-      @{{ currentUser.username }}
-    </div> -->
-    <router-view />
+    <router-view :key="$route.fullPath" />
 
     <a
       href="#top"
@@ -198,7 +188,16 @@ export default {
   },
   created: function() {
     this.username = localStorage.getItem("username");
-    if (this.username) {
+    this.setCurrentUser();
+  },
+  methods: {
+    isLoggedIn: function() {
+      return localStorage.getItem("jwt");
+    },
+    isCurrentUser: function() {
+      return this.username == this.$route.params.username;
+    },
+    setCurrentUser: function() {
       axios
         .get(`/api/users/${this.username}`)
         .then(response => {
@@ -212,14 +211,6 @@ export default {
         .catch(error => {
           console.log(error.response);
         });
-    }
-  },
-  methods: {
-    isLoggedIn: function() {
-      return localStorage.getItem("jwt");
-    },
-    isCurrentUser: function() {
-      return this.username == this.$route.params.username;
     }
   }
 };

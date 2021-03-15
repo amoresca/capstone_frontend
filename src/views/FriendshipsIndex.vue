@@ -23,7 +23,7 @@
     <div class="main-container"
       ><section id="signup" class="md"
         ><div class="container">
-          <div class="form-group row">
+          <div v-if="friends.length > 0" class="form-group row">
             <label for="search-friends" class="col-sm-3 col-form-label"
               ><h4>Search Friends</h4></label
             >
@@ -37,6 +37,7 @@
               />
             </div>
           </div>
+          <div v-else><h4 class="mt-40">You don't have any friends yet. <a href="#" v-on:click.prevent="openFriendModal()">Click here to find friends.</a></h4></div>
 
           <div
             v-for="friend in filterBy(friends, searchFriends)"

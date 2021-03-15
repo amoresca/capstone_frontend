@@ -4899,7 +4899,7 @@ label.btn-file {
 }
 
 .modal-header .close {
-  display: none !important;
+  /* display: none !important; */
   color: #000;
   opacity: 1;
   font-size: 1.5rem;

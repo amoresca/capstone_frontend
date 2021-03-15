@@ -2,17 +2,19 @@
   <div class="friendships-index">
     <header class="pt-200 pb-0 bg-primary dark">
       <div class="container">
-        <div class="row justify-content-between"
-          ><div class="col-md-6"><h1>My Friends</h1></div>
+        <div class="row justify-content-between">
+          <div class="col-md-6"><h1>My Friends</h1></div>
 
-          <div class="col-md-6 text-right"
-            ><button
-              v-on:click="openFriendModal()"
+          <div class="col-md-6 text-right">
+            <button
+              data-toggle="modal"
+              data-target="#user-search"
               class="btn btn-success-gradient m-y-10 mr-10"
-              ><i class="fas fa-plus mr-10"></i> Add Friend</button
-            ></div
-          ></div
-        >
+            >
+              <i class="fas fa-plus mr-10"></i> Add Friend
+            </button>
+          </div>
+        </div>
       </div>
       <img
         src="/assets/images/angle-light.svg"
@@ -20,10 +22,10 @@
         alt=""
       />
     </header>
-    <div class="main-container"
-      ><section id="signup" class="md"
-        ><div class="container">
-          <div v-if="friends.length > 0" class="form-group row">
+    <div class="main-container">
+      <section id="signup" class="md">
+        <div class="container">
+          <div v-if="friends.length > 0" class="form-group row mb-50 promo-box">
             <label for="search-friends" class="col-sm-3 col-form-label"
               ><h4>Search Friends</h4></label
             >
@@ -37,91 +39,154 @@
               />
             </div>
           </div>
-          <div v-else><h4 class="mt-40">You don't have any friends yet. <a href="#" v-on:click.prevent="openFriendModal()">Click here to find friends.</a></h4></div>
-
-          <div
-            v-for="friend in filterBy(friends, searchFriends)"
-            :key="friend.id"
-            class="card w-rised-icon lg-icon"
-          >
-            <div class="card-body text-center">
-              <div class="rised-icon bg-light circle icon-lg pos-center raised">
-                <router-link
-                  :to="`/users/${friend.username}`"
-                  class="stretched-link"
-                  ><img
-                    :src="friend.image_url"
-                    class="circle"
-                    :alt="
-                      `${friend.first_name} ${friend.last_name} Profile Picture`
-                    "
-                    width="50"/></router-link
-              ></div>
-              <h5 class="card-title mt-25"
-                >{{ friend.first_name }} {{ friend.last_name }}</h5
+          <div v-else>
+            <h4 class="mt-40">
+              You don't have any friends yet.
+              <a href="#" v-on:click.prevent="openFriendModal()"
+                >Click here to find friends.</a
               >
-              <p class="card-text">@{{ friend.username }}</p>
-              <button v-on:click="deleteFriendship(friend)">
-                Remove Friend
-              </button>
-              <hr /> </div
-          ></div>
-          <dialog>
-            <form method="dialog">
-              <div
-                class="alert alert-warning alert-dismissible fade show"
-                role="alert"
-                v-if="alert"
-              >
-                <strong>{{ alert }}</strong>
-                <button
-                  type="button"
-                  class="close"
-                  data-dismiss="alert"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <button>Close</button>
-              <h2>Add a Friend</h2>
-              <ul>
-                <li
-                  class="text-danger"
-                  v-for="error in errors"
-                  v-bind:key="error"
-                >
-                  {{ error }}
-                </li>
-              </ul>
-              <label for="">Search Users: </label
-              ><input type="text" v-model="searchUsers" /><br />
-              <div v-if="searchUsers">
-                <div
-                  v-for="user in filterBy(
-                    users,
-                    searchUsers,
-                    'first_name',
-                    'last_name',
-                    'username'
-                  )"
-                  :key="user.id"
-                >
-                  <img :src="user.image_url" alt="" width="50" />
-                  <h3>{{ user.first_name }} {{ user.last_name }}</h3>
-                  <p>{{ user.username }}</p>
-                  <button
-                    v-if="user.friends == false"
-                    v-on:click.prevent="createFriendship(user.id)"
+            </h4>
+          </div>
+          <div class="row">
+            <div
+              class="col-lg-4"
+              v-for="friend in filterBy(
+                friends,
+                searchFriends,
+                'first_name',
+                'last_name',
+                'username'
+              )"
+              :key="friend.id"
+            >
+              <div class="card w-rised-icon lg-icon">
+                <div class="card-body text-center">
+                  <div
+                    class="rised-icon bg-light circle icon-lg pos-center raised"
                   >
-                    Add Friend
+                    <router-link :to="`/users/${friend.username}`">
+                      <img
+                        :src="friend.image_url"
+                        class="circle"
+                        :alt="
+                          `${friend.first_name} ${friend.last_name} Profile Picture`
+                        "
+                        width="50"
+                      />
+                    </router-link>
+                  </div>
+                  <router-link :to="`/users/${friend.username}`">
+                    <h5 class="card-title mt-25"
+                      >{{ friend.first_name }} {{ friend.last_name }}</h5
+                    >
+                  </router-link>
+                  <p class="card-text">@{{ friend.username }}</p>
+                  <button
+                    v-on:click="deleteFriendship(friend)"
+                    class="btn btn-danger btn-xs"
+                  >
+                    <span class="fas fa-trash"></span>
+                    <span class="ml-10">Remove Friend</span>
                   </button>
-                  <small v-else>You are already friends with this user</small>
-                  <hr />
                 </div>
               </div>
-            </form> </dialog></div></section
-    ></div>
+            </div>
+          </div>
+          <div
+            class="modal fade"
+            id="user-search"
+            tabindex="-1"
+            style="display: none;"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Add a Friend</h4>
+                  <button
+                    type="button"
+                    class="close btn btn-icon mr-5"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button></div
+                ><!-- / modal-header -->
+                <div class="modal-body">
+                  <div class="container full-width">
+                    <form method="dialog">
+                      <div
+                        class="alert alert-warning alert-dismissible fade show"
+                        role="alert"
+                        v-if="alert"
+                      >
+                        <strong>{{ alert }}</strong>
+                        <button
+                          type="button"
+                          class="close"
+                          data-dismiss="alert"
+                          aria-label="Close"
+                        >
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <ul>
+                        <li
+                          class="text-danger"
+                          v-for="error in errors"
+                          v-bind:key="error"
+                        >
+                          {{ error }}
+                        </li>
+                      </ul>
+                      <div class="form-inline">
+                        <div class="form-group mb-20 p-3 w-100">
+                          <label for="search-users">Search Users</label>
+                          <input
+                            class="form-control flex-grow-1 ml-20"
+                            type="text"
+                            v-model="searchUsers"
+                            id="search-users"
+                            placeholder="First name, last name, username..."
+                          />
+                        </div>
+                      </div>
+                      <div v-if="searchUsers">
+                        <div
+                          v-for="user in filterBy(
+                            users,
+                            searchUsers,
+                            'first_name',
+                            'last_name',
+                            'username'
+                          )"
+                          :key="user.id"
+                        >
+                          <img :src="user.image_url" alt="" width="50" />
+                          <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+                          <p>{{ user.username }}</p>
+                          <button
+                            v-if="user.friends == false"
+                            v-on:click.prevent="createFriendship(user.id)"
+                          >
+                            Add Friend
+                          </button>
+                          <small v-else
+                            >You are already friends with this user</small
+                          >
+                          <hr />
+                        </div>
+                      </div> </form></div
+                  ><!-- / container --> </div
+                ><!-- / modal-body -->
+                <div class="modal-footer"> </div
+                ><!-- / modal-footer --> </div
+              ><!-- / modal-content --> </div
+            ><!-- / modal-dialog -->
+          </div>
+        </div>
+      </section>
+    </div>
   </div>
 </template>
 

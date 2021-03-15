@@ -16,9 +16,9 @@
       <div class="sticky-nav-activate fixed-top"></div>
       <div class="container">
         <router-link class="navbar-brand" to="/">BorrowApp</router-link>
-        <a class="navbar-brand sticky-logo" href="index.html"
-          ><img src="assets/images/logo.png" alt=""
-        /></a>
+        <a class="navbar-brand sticky-logo" href="index.html">
+          <img src="assets/images/logo.png" alt="" />
+        </a>
         <button
           class="navbar-toggler collapsed"
           type="button"
@@ -47,8 +47,8 @@
                 :to="`/users/${currentUser().username}`"
                 key="$route.path"
                 ><i class="fas fa-boxes fs-14 mr-5"></i> My Stuff</router-link
-              ></li
-            >
+              >
+            </li>
             <li class="nav-item" v-if="isLoggedIn()">
               <router-link class="nav-link" to="/friends"
                 ><i class="fas fa-users fs-14 mr-5"></i> Friends</router-link
@@ -156,26 +156,6 @@
     </footer> -->
   </div>
 </template>
-
-<style>
-/* #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-}
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-#nav a.router-link-exact-active {
-  color: #42b983;
-} */
-</style>
 
 <script>
 // import axios from "axios";

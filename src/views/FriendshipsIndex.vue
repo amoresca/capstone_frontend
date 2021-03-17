@@ -26,9 +26,9 @@
       <section id="signup" class="md">
         <div class="container">
           <div v-if="friends.length > 0" class="form-group row mb-50 promo-box">
-            <label for="search-friends" class="col-sm-3 col-form-label"
-              ><h4>Search Friends</h4></label
-            >
+            <label for="search-friends" class="col-sm-3 col-form-label">
+              <h4>Search Friends</h4>
+            </label>
             <div class="col-sm-9">
               <input
                 class="form-control"

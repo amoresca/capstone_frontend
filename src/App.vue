@@ -171,7 +171,7 @@ export default {
       return localStorage.getItem("jwt");
     },
     isCurrentUser: function() {
-      return this.username == this.$route.params.username;
+      return this.currentUser().username == this.$route.params.username;
     },
     setCurrentUser: function(data) {
       var userObject = {

@@ -71,87 +71,164 @@
           </div>
           <div v-if="$parent.isCurrentUser()">
             <!-- Create Item Form -->
-            <div v-if="showForm">
+            <div v-if="showForm" class="promo-box">
               <h2>Add an Item</h2>
-              <form v-on:submit.prevent="createItem()">
-                <label for="">Name: </label
-                ><input type="text" v-model="newName" />
-                <label for="">Image URL: </label>
-                <input type="text" v-model="newImage" />
-                <label for="">Category: </label>
-                <select name="" id="" v-model="newCategory">
-                  <option value="">Choose a Category</option>
-                  <option
-                    v-for="category in categories"
-                    :value="category.id"
-                    :key="category.id"
-                    >{{ category.name }}</option
-                  ></select
-                >
-                <button>Add Item</button>
+              <form v-on:submit.prevent="createItem()" class="row">
+                <div class="col-lg-6">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"
+                        ><i class="fas fa-pen-nib text-primary"></i
+                      ></span> </div
+                    ><!--/ input-group-prepend -->
+                    <input
+                      type="text"
+                      class="form-control w-icon-left"
+                      id="new-name"
+                      placeholder="Name"
+                      v-model="newName"
+                    />
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"
+                        ><i class="fas fa-image text-primary"></i
+                      ></span> </div
+                    ><!--/ input-group-prepend -->
+                    <input
+                      type="text"
+                      class="form-control w-icon-left"
+                      id="new-image"
+                      placeholder="Image URL"
+                      v-model="newImage"
+                    />
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <select
+                    id="new-category"
+                    class="custom-select"
+                    v-model="newCategory"
+                  >
+                    <option value="">Choose a Category</option>
+                    <option
+                      v-for="category in categories"
+                      :value="category.id"
+                      :key="category.id"
+                      >{{ category.name }}</option
+                    ></select
+                  >
+                </div>
+                <div class="col-lg-6">
+                  <multiselect
+                    v-model="newTags"
+                    tag-placeholder="Add this as new tag"
+                    placeholder="Search or add a tag"
+                    label="name"
+                    track-by="id"
+                    :options="tags"
+                    :multiple="true"
+                    :taggable="true"
+                    @tag="addTag"
+                  ></multiselect>
+                </div>
+                <div class="col">
+                  <button>Add Item</button>
+                  {{ newTags }}
+                </div>
               </form>
-              <hr />
             </div>
           </div>
 
           <!-- Items -->
           <div class="items" v-if="user.items && user.items.length > 0">
-            <label for="">Search by name: </label
-            ><input type="text" v-model="searchName" />
-            <label for="">Category: </label
-            ><select name="" id="" v-model="searchCategory">
-              <option value="">All Categories</option>
-              <option
-                v-for="category in categories"
-                :value="category.id"
-                :key="category.id"
-                >{{ category.name }}</option
+            <div class="form-group d-flex mb-50 promo-box">
+              <label for="search-items" class="col-form-label mr-20">
+                <h4 style="white-space: nowrap">Search Items</h4>
+              </label>
+              <input
+                type="text"
+                id="search-items"
+                placeholder="Search by name, keyword..."
+                v-model="searchName"
+                class="form-control mr-20"
+              />
+              <label for="category-items">
+                <span class="sr-only">Category:</span>
+              </label>
+              <select
+                id="category-items"
+                class="custom-select"
+                v-model="searchCategory"
               >
-            </select>
-            <div
-              v-for="item in filterBy(
-                filterBy(user.items, searchCategory, 'category.id'),
-                searchName,
-                'name'
-              )"
-              :key="item.id"
-              :class="{ unavailable: !item.available }"
-            >
-              <h3>{{ item.name }}</h3>
-              <img :src="item.image_url" alt="" width="100" /><br />
-              <p>{{ item.category.name }}</p>
-              <button
-                v-if="$parent.isCurrentUser()"
-                v-on:click="openEditModal(item)"
-              >
-                Edit
-              </button>
-              <button
-                v-if="$parent.isCurrentUser()"
-                v-on:click="destroyItem(item)"
-              >
-                Delete
-              </button>
-              <button
-                v-else-if="item.available"
-                v-on:click="createBorrowRequest(item)"
-              >
-                Request to Borrow
-              </button>
-              <div v-if="!item.available && $parent.isCurrentUser()">
-                <strong
-                  >Currently borrowed by:
-                  <router-link
-                    :to="`/users/${item.borrow_request.user.username}`"
-                    >{{ item.borrow_request.user.first_name }}
-                    {{ item.borrow_request.user.last_name }}</router-link
-                  ></strong
+                <option value="">All Categories</option>
+                <option
+                  v-for="category in categories"
+                  :value="category.id"
+                  :key="category.id"
+                  >{{ category.name }}</option
                 >
-                <img
-                  :src="item.borrow_request.user.image_url"
-                  alt=""
-                  width="50"
-                />
+              </select>
+            </div>
+
+            <div class="row">
+              <div
+                v-for="item in filterBy(
+                  filterBy(user.items, searchCategory, 'category.id'),
+                  searchName,
+                  'name'
+                )"
+                :key="item.id"
+                :class="{ unavailable: !item.available }"
+                class="col-lg-6"
+              >
+                <div class="promo-box">
+                  <div class="row">
+                    <div class="col-4">
+                      <img :src="item.image_url" alt="" width="100" />
+                    </div>
+                    <div class="col-8">
+                      <p class="card-title fs-16">{{ item.name }}</p>
+                      <p>{{ item.category.name }}</p>
+                      <button
+                        v-if="$parent.isCurrentUser()"
+                        v-on:click="openEditModal(item)"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        v-if="$parent.isCurrentUser()"
+                        v-on:click="destroyItem(item)"
+                      >
+                        Delete
+                      </button>
+                      <button
+                        v-else-if="item.available"
+                        v-on:click="createBorrowRequest(item)"
+                      >
+                        Request to Borrow
+                      </button>
+                    </div>
+                  </div>
+
+                  <div v-if="!item.available && $parent.isCurrentUser()">
+                    <strong
+                      >Currently borrowed by:
+                      <router-link
+                        :to="`/users/${item.borrow_request.user.username}`"
+                        >{{ item.borrow_request.user.first_name }}
+                        {{ item.borrow_request.user.last_name }}</router-link
+                      ></strong
+                    >
+                    <img
+                      :src="item.borrow_request.user.image_url"
+                      alt=""
+                      width="50"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -173,8 +250,11 @@
                 {{ item.user.last_name }}</router-link
               >
               <img :src="item.user.image_url" alt="" width="50" />
-            </div> </div></div></section
-    ></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
 
     <!-- Edit Dialog -->
     <dialog>
@@ -242,17 +322,21 @@
 <script>
 import axios from "axios";
 import Vue2Filters from "vue2-filters";
+import Multiselect from "vue-multiselect";
 
 export default {
   mixins: [Vue2Filters.mixin],
+  components: { Multiselect },
   data: function() {
     return {
       user: "",
       categories: [],
+      tags: [],
       showForm: false,
       newName: "",
       newCategory: "",
       newImage: "",
+      newTags: "",
       searchName: "",
       searchCategory: "",
       currentItem: "",
@@ -264,14 +348,16 @@ export default {
     this.getUser();
     axios.get("/api/categories").then(response => {
       this.categories = response.data;
-      // console.log(response.data);
+    });
+    axios.get("/api/tags").then(response => {
+      this.tags = response.data;
     });
   },
   methods: {
     getUser: function() {
       axios.get(`/api/users/${this.$route.params.username}`).then(response => {
         this.user = response.data;
-        console.log(response.data);
+        // console.log(response.data);
       });
     },
     toggleForm: function() {

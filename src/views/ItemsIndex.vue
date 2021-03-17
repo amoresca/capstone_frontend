@@ -1,8 +1,8 @@
 <template>
   <div class="items-index" v-if="items">
-    <div class="main-container"
-      ><section id="signup" class="lg"
-        ><div class="container">
+    <div class="main-container">
+      <section id="signup" class="lg">
+        <div class="container">
           <!-- Alert -->
           <div
             class="alert alert-warning alert-dismissible fade show"
@@ -37,14 +37,20 @@
               v-for="item in filterBy(
                 filterBy(items, searchCategory, 'category.id'),
                 searchName,
-                'name'
+                'name',
+                'tags'
               )"
               :key="item.id"
               :class="{ unavailable: !item.available }"
             >
               <h3>{{ item.name }}</h3>
               <img :src="item.image_url" alt="" width="100" /><br />
-              <p>{{ item.category.name }}</p>
+              <p class="mb-0">Category: {{ item.category.name }}</p>
+              <p
+                ><span v-for="tag in item.tags" :key="tag.id"
+                  >#{{ tag.name }}
+                </span></p
+              >
               <router-link :to="`/users/${item.user.username}`"
                 ><strong
                   >Owner: {{ item.user.first_name }} {{ item.user.last_name }}

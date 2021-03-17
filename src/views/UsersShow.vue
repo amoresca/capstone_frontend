@@ -32,7 +32,7 @@
               v-if="user.friends == true"
               class="btn btn-danger-gradient btn-xs mt-40"
             >
-              <span class="fas fa-trash"></span
+              <span class="fas fa-trash mr-10"></span
               ><span class="m-y-10">Remove Friend</span>
             </button>
             <button
@@ -73,6 +73,22 @@
             <!-- Create Item Form -->
             <div v-if="showForm" class="promo-box">
               <h2>Add an Item</h2>
+              <div
+                v-if="newItemMessage"
+                class="alert alert-success alert-dismissible fade show"
+                role="alert"
+              >
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="alert"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true" class="fas fa-times fs-16"></span>
+                </button>
+                <span class="far fa-check-square fs-22 mr-15"></span>
+                <span><strong>Great!</strong> {{ newItemMessage }}</span>
+              </div>
               <form v-on:submit.prevent="createItem()" class="row">
                 <div class="col-lg-6">
                   <div class="input-group">
@@ -136,7 +152,6 @@
                 </div>
                 <div class="col">
                   <button>Add Item</button>
-                  {{ newTags }}
                 </div>
               </form>
             </div>
@@ -151,7 +166,7 @@
               <input
                 type="text"
                 id="search-items"
-                placeholder="Search by name, keyword..."
+                placeholder="Search by name or tag..."
                 v-model="searchName"
                 class="form-control mr-20"
               />
@@ -178,7 +193,8 @@
                 v-for="item in filterBy(
                   filterBy(user.items, searchCategory, 'category.id'),
                   searchName,
-                  'name'
+                  'name',
+                  'tags'
                 )"
                 :key="item.id"
                 :class="{ unavailable: !item.available }"
@@ -191,7 +207,19 @@
                     </div>
                     <div class="col-8">
                       <p class="card-title fs-16">{{ item.name }}</p>
-                      <p>{{ item.category.name }}</p>
+                      <p class="mb-0">Category: {{ item.category.name }}</p>
+                      <p
+                        ><span v-for="tag in item.tags" :key="tag.id"
+                          >#{{ tag.name }} </span
+                        ><a
+                          href="#"
+                          v-if="
+                            $parent.isCurrentUser() && item.tags.length === 0
+                          "
+                          v-on:click.prevent="openEditModal(item)"
+                          >Click to add tags</a
+                        ></p
+                      >
                       <button
                         v-if="$parent.isCurrentUser()"
                         v-on:click="openEditModal(item)"
@@ -243,7 +271,13 @@
             <h2>Borrowed Items</h2>
             <div v-for="item in user.borrowed_items" :key="item.id">
               <h3>{{ item.name }}</h3>
-              <img :src="item.image_url" alt="" width="100" /><br />
+              <img :src="item.image_url" alt="" width="100" />
+              <p class="mb-0">Category: {{ item.category.name }}</p>
+              <p
+                ><span v-for="tag in item.tags" :key="tag.id"
+                  >#{{ tag.name }}
+                </span></p
+              >
               <strong>Belongs to: </strong
               ><router-link :to="`/users/${item.user.username}`"
                 >{{ item.user.first_name }}
@@ -288,6 +322,19 @@
               >{{ category.name }}</option
             ></select
           >
+        </div>
+        <div class="form-group">
+          <multiselect
+            v-model="currentItem.tags"
+            tag-placeholder="Add this as new tag"
+            placeholder="Search or add a tag"
+            label="name"
+            track-by="id"
+            :options="tags"
+            :multiple="true"
+            :taggable="true"
+            @tag="addTag"
+          ></multiselect>
         </div>
         <div class="form-group">
           <label for="">Status: </label>
@@ -336,7 +383,8 @@ export default {
       newName: "",
       newCategory: "",
       newImage: "",
-      newTags: "",
+      newTags: [],
+      newItemMessage: "",
       searchName: "",
       searchCategory: "",
       currentItem: "",
@@ -363,18 +411,41 @@ export default {
     toggleForm: function() {
       this.showForm = !this.showForm;
     },
+    addTag(newTagName) {
+      // Create a new tag in the database
+      axios
+        .post("/api/tags", { name: newTagName })
+        .then(response => {
+          console.log(response.data);
+          const tag = {
+            id: response.data.id,
+            name: newTagName
+          };
+          // Add new tag to options
+          this.tags.push(tag);
+          // Add new tag to new item
+          this.newTags.push(tag);
+        })
+        .catch(error => {
+          this.errors = error.response.data.errors;
+        });
+    },
     createItem: function() {
       var params = {
         name: this.newName,
         image_url: this.newImage,
-        category_id: this.newCategory
+        category_id: this.newCategory,
+        tag_ids: this.newTags.map(tag => tag.id)
       };
       axios.post("/api/items", params).then(response => {
         console.log(response.data);
         this.user.items.unshift(response.data);
+        this.newItemMessage = `${this.newName} has been added to your items.`;
+        // NOTE: Need to programatically trigger the alert
         this.newName = "";
         this.newCategory = "";
         this.newImage = "";
+        this.newTags = "";
       });
     },
     openEditModal: function(item) {
@@ -386,7 +457,8 @@ export default {
       var params = {
         name: this.currentItem.name,
         image_url: this.currentItem.image_url,
-        category_id: this.currentItem.category.id
+        category_id: this.currentItem.category.id,
+        tag_ids: this.currentItem.tags.map(tag => tag.id)
       };
       axios
         .patch(`/api/items/${this.currentItem.id}`, params)

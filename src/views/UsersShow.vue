@@ -197,10 +197,12 @@
                   'tags'
                 )"
                 :key="item.id"
-                :class="{ unavailable: !item.available }"
                 class="col-lg-6"
               >
-                <div class="promo-box">
+                <div
+                  :class="{ 'bg-light-grey': !item.available }"
+                  class="promo-box"
+                >
                   <div class="row">
                     <div class="col-4">
                       <img :src="item.image_url" alt="" width="100" />
@@ -360,12 +362,6 @@
   </div>
 </template>
 
-<style>
-.unavailable {
-  background-color: #dedede;
-}
-</style>
-
 <script>
 import axios from "axios";
 import Vue2Filters from "vue2-filters";
@@ -405,7 +401,7 @@ export default {
     getUser: function() {
       axios.get(`/api/users/${this.$route.params.username}`).then(response => {
         this.user = response.data;
-        // console.log(response.data);
+        console.log(response.data);
       });
     },
     toggleForm: function() {

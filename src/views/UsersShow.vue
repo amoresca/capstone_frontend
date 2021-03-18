@@ -51,7 +51,7 @@
       />
     </header>
     <div class="main-container">
-      <section id="signup" class="md">
+      <section id="items" class="md">
         <div class="container">
           <!-- Alert -->
           <div
@@ -201,7 +201,7 @@
               >
                 <div
                   :class="{ 'bg-light-grey': !item.available }"
-                  class="promo-box"
+                  class="promo-box p-20"
                 >
                   <div class="row">
                     <div class="col-4">
@@ -210,8 +210,8 @@
                     <div class="col-8">
                       <p class="card-title fs-16">{{ item.name }}</p>
                       <p class="mb-0">Category: {{ item.category.name }}</p>
-                      <p
-                        ><span v-for="tag in item.tags" :key="tag.id"
+                      <p>
+                        <span v-for="tag in item.tags" :key="tag.id"
                           >#{{ tag.name }} </span
                         ><a
                           href="#"
@@ -220,43 +220,47 @@
                           "
                           v-on:click.prevent="openEditModal(item)"
                           >Click to add tags</a
-                        ></p
-                      >
-                      <button
-                        v-if="$parent.isCurrentUser()"
-                        v-on:click="openEditModal(item)"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        v-if="$parent.isCurrentUser()"
-                        v-on:click="destroyItem(item)"
-                      >
-                        Delete
-                      </button>
-                      <button
-                        v-else-if="item.available"
-                        v-on:click="createBorrowRequest(item)"
-                      >
-                        Request to Borrow
-                      </button>
+                        >
+                      </p>
+                      <div v-if="!item.available && $parent.isCurrentUser()">
+                        <hr />
+                        <strong
+                          >Currently borrowed by:
+                          <router-link
+                            :to="`/users/${item.borrow_request.user.username}`"
+                            >{{ item.borrow_request.user.first_name }}
+                            {{
+                              item.borrow_request.user.last_name
+                            }}</router-link
+                          ></strong
+                        >
+                      </div>
+                      <!--- Buttons --->
+                      <div class="text-right">
+                        <button
+                          v-if="$parent.isCurrentUser()"
+                          v-on:click="openEditModal(item)"
+                          class="btn btn-icon btn-circle btn-info btn-xs"
+                        >
+                          <i class="fas fa-pencil-alt"></i>
+                          <span class="sr-only">Edit Item</span>
+                        </button>
+                        <button
+                          v-if="$parent.isCurrentUser()"
+                          v-on:click="destroyItem(item)"
+                          class="btn btn-icon btn-circle btn-danger btn-xs"
+                        >
+                          <i class="fas fa-trash"></i>
+                          <span class="sr-only">Remove Item</span>
+                        </button>
+                        <button
+                          v-else-if="item.available"
+                          v-on:click="createBorrowRequest(item)"
+                        >
+                          Request to Borrow
+                        </button>
+                      </div>
                     </div>
-                  </div>
-
-                  <div v-if="!item.available && $parent.isCurrentUser()">
-                    <strong
-                      >Currently borrowed by:
-                      <router-link
-                        :to="`/users/${item.borrow_request.user.username}`"
-                        >{{ item.borrow_request.user.first_name }}
-                        {{ item.borrow_request.user.last_name }}</router-link
-                      ></strong
-                    >
-                    <img
-                      :src="item.borrow_request.user.image_url"
-                      alt=""
-                      width="50"
-                    />
                   </div>
                 </div>
               </div>

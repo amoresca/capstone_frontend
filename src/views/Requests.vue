@@ -79,8 +79,8 @@
                     ></div
                   ><!-- / promo-container -->
                 </div>
-                <h3 class="mt-50 mb-20"
-                  ><i class="fas fa-clipboard-list mr-5"></i> Waitlist
+                <h3 class="mt-50 mb-20">
+                  <i class="fas fa-clipboard-list mr-5"></i> Waitlist
                   <a
                     href="#x"
                     class="btn btn-sm btn-icon btn-info btn-circle float-right"
@@ -88,10 +88,11 @@
                     data-placement="top"
                     title=""
                     data-original-title="Tooltip on top"
-                    ><i class="fas fa-question"></i></a
-                ></h3>
+                    ><i class="fas fa-question"></i>
+                  </a>
+                </h3>
                 <div
-                  class="promo-box promo-left"
+                  class="promo-box promo-left pb-20"
                   v-for="request in orderBy(
                     filterBy(requests.borrow_requests, false, 'item.available'),
                     'created_at'
@@ -116,13 +117,16 @@
                       request.item.name
                     }}</h6> </div
                   ><!-- / promo-container -->
+                  <div class="text-right">
+                    <small>{{ relativeDate(request.created_at) }}</small>
+                  </div>
                 </div>
               </div>
-              <div v-else
-                ><h5 class="mt-80"
-                  >You have no pending borrow requests.</h5
-                ></div
-              >
+              <div v-else>
+                <h5 class="mt-80">
+                  You have no pending borrow requests.
+                </h5>
+              </div>
             </div>
             <div class="col-lg-6 pl-lg-5">
               <h2 class="mb-80"
@@ -176,6 +180,7 @@
 <script>
 import axios from "axios";
 import Vue2Filters from "vue2-filters";
+import moment from "moment";
 
 export default {
   mixins: [Vue2Filters.mixin],
@@ -243,6 +248,9 @@ export default {
         .catch(error => {
           console.log(error.response.data);
         });
+    },
+    relativeDate: function(date) {
+      return moment(date).fromNow();
     }
   }
 };

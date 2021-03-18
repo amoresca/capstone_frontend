@@ -7,18 +7,18 @@
       </div>
     </div> -->
 
-    <div id="top"> </div
-    ><!-- / top -->
+    <div id="top"></div>
 
     <nav
       class="navbar navbar-expand-lg navbar-light has-sticky-logo main-nav fixed-top nav-scroll"
     >
       <div class="sticky-nav-activate fixed-top"></div>
       <div class="container">
-        <router-link class="navbar-brand" to="/">BorrowApp</router-link>
-        <a class="navbar-brand sticky-logo" href="index.html">
-          <img src="assets/images/logo.png" alt="" />
-        </a>
+        <router-link
+          class="navbar-brand sticky-logo fs-24 mr-20 text-primary"
+          to="/"
+          >Borrowr</router-link
+        >
         <button
           class="navbar-toggler collapsed"
           type="button"
@@ -123,22 +123,24 @@
     ><!-- / navbar -->
     <router-view :key="$route.fullPath" />
 
-    <a
-      href="#top"
-      class="scroll-to-top is-hidden smooth-scroll"
-      data-nav-status="toggle"
+    <a href="#top" class="scroll-to-top smooth-scroll" data-nav-status="toggle"
       ><i class="fas fa-chevron-up"></i
     ></a>
 
-    <!-- <footer class="big bg-primary dark">
+    <footer class="big bg-primary dark pt-0">
+      <img
+        src="/assets/images/angle-up-light.svg"
+        alt=""
+        class="img-top mb-60"
+      />
       <div class="container">
         <div class="row v-center mobile-center">
           <div class="col-md-4 footer-left-area tablet-top">
             <p
               >© Neumo by
               <a href="https://kingstudio.ro" target="_blank">KingStudio</a></p
-            > </div
-          >
+            >
+          </div>
           <div class="col-md-8 footer-right-area">
             <p>
               <a href="index.html" class="text-link mr-20">Home</a>
@@ -149,11 +151,11 @@
                 >Templates</a
               >
               <a href="components.html" class="text-link">Components</a>
-            </p> </div
-          > </div
-        > </div
-      >
-    </footer> -->
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
   </div>
 </template>
 

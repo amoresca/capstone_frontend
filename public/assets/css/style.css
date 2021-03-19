@@ -12428,30 +12428,6 @@ body .no-shadow:focus {
 /*---------------- end of media screens ----------------*/
 
 /*------- Casee's Styles ------*/
-.side-nav {
-  width: 300px;
-  z-index: 10;
-  top: 0;
-  bottom: 0;
-  position: fixed;
-  overflow: hidden;
-  padding: 20px 0;
-  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.05), 0 0 10px rgba(0, 0, 0, 0.1) !important;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05), 0 0 10px rgba(0, 0, 0, 0.1) !important;
-}
-
-.side-nav .nav-link {
-  color: #656774;
-  font-size: 1em;
-  line-height: 1em;
-  text-align: left;
-  padding: 20px 30px;
-}
-
-.side-nav + .main-container {
-  padding-left: 300px;
-}
-
 .item-thumbnail {
   position: relative;
   height: 0;
@@ -12463,6 +12439,26 @@ body .no-shadow:focus {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+}
+
+#notifications .fa-bell {
+  position: relative;
+}
+
+#notifications.unread .fa-bell:after {
+  content: "";
+  height: 8px;
+  width: 8px;
+  background-color: red;
+  display: block;
+  position: absolute;
+  top: -1px;
+  right: -2px;
+  border-radius: 50%;
+}
+
+#notifications .dropdown-item {
+  white-space: unset;
 }
 
 /*------- Multiselect ------*/

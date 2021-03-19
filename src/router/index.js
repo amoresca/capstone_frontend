@@ -9,6 +9,7 @@ import UsersShow from "../views/UsersShow.vue";
 import FriendshipsIndex from "../views/FriendshipsIndex.vue";
 import ItemsIndex from "../views/ItemsIndex.vue";
 import Requests from "../views/Requests.vue";
+import RequestsChannel from "../views/RequestsChannel.vue";
 
 Vue.use(VueRouter);
 
@@ -67,6 +68,11 @@ const routes = [
     meta: {
       title: "Requests"
     }
+  },
+  {
+    path: "/requests-channel",
+    name: "requests-channel",
+    component: RequestsChannel
   }
 ];
 

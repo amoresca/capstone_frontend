@@ -14,9 +14,7 @@
     >
       <div class="sticky-nav-activate fixed-top"></div>
       <div class="container">
-        <router-link
-          class="navbar-brand sticky-logo fs-24 mr-20 text-primary"
-          to="/"
+        <router-link class="navbar-brand sticky-logo fs-24 mr-20 text-primary" to="/"
           >Borrowr</router-link
         >
         <button
@@ -37,9 +35,7 @@
         <div class="collapse navbar-collapse" id="navbar-toggle">
           <ul class="navbar-nav m-auto">
             <li class="nav-item" v-if="!isLoggedIn()">
-              <router-link to="/login" class="nav-link smooth-scroll"
-                >Login</router-link
-              >
+              <router-link to="/login" class="nav-link smooth-scroll">Login</router-link>
             </li>
             <li class="nav-item" v-if="isLoggedIn()">
               <router-link
@@ -56,48 +52,106 @@
             >
             <li class="nav-item" v-if="isLoggedIn()">
               <router-link class="nav-link" to="/items"
-                ><i class="fas fa-people-arrows fs-14 mr-5"></i>
-                Borrow</router-link
+                ><i class="fas fa-people-arrows fs-14 mr-5"></i> Borrow</router-link
               ></li
             >
-            <li class="nav-item" v-if="isLoggedIn()">
-              <router-link class="nav-link" to="/requests"
-                ><i class="fas fa-bell fs-14 mr-5"></i> Requests</router-link
-              ></li
+            <li
+              id="notifications"
+              class="nav-item"
+              :class="{ 'unread dropdown': !read }"
+              v-if="isLoggedIn()"
             >
-            <li class="nav-item dropdown" v-if="isLoggedIn()">
               <router-link
-                class="nav-link dropdown-toggle"
-                id="dropdown-center-nav"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-                to="/my-account"
-                ><i class="fas fa-cog fs-14 mr-5"></i> My Account</router-link
-              >
-              <div class="dropdown-menu" aria-labelledby="dropdown-center-nav">
-                <div class="dropdown-item promo-left">
-                  <div class="promo-container-big">
-                    <div class="promo-big">
-                      <img
-                        :src="currentUser().image_url"
-                        alt=""
-                        class="promo-box-image circle mb-25 raised-sm"
-                      /> </div
-                    ><!-- / promo-big -->
-                    <h6 class="box-title mb-15"
-                      >{{ currentUser().first_name }}
-                      {{ currentUser().last_name }}</h6
+                class="nav-link"
+                :class="{ 'dropdown-toggle': !read }"
+                to="/requests"
+                ><i class="fas fa-bell fs-14 mr-5"></i> Requests</router-link
+              ><div class="dropdown-menu" aria-labelledby="dropdown-center-nav"
+                ><div
+                  v-for="request in orderBy(requests, 'created_at', -1)"
+                  :key="request.created_at"
+                >
+                  <div v-if="!request.read">
+                    <!-------- Borrow Request for available item -------->
+                    <div
+                      class="dropdown-item"
+                      v-if="request.item && request.item.available"
                     >
-                    <p>@{{ currentUser().username }}</p></div
-                  ><!-- / promo-container -->
+                      <p
+                        >{{ request.requestor.first_name }}
+                        {{ request.requestor.last_name }} wants to borrow
+                        {{ request.item.name }}.&nbsp;<small>{{
+                          relativeDate(request.created_at)
+                        }}</small></p
+                      >
+                      <button
+                        class="btn btn-info btn-xs"
+                        v-on:click="acceptBorrowRequest(request)"
+                        >Accept</button
+                      >
+                      <button
+                        class="btn btn-secondary btn-xs"
+                        v-on:click="rejectBorrowRequest(request)"
+                        >Reject</button
+                      >
+                      <button
+                        class="btn btn-xs btn-icon btn-circle btn-secondary ml-10"
+                        v-on:click.prevent="markAsRead(request)"
+                        ><i class="fas fa-times"></i
+                      ></button>
+                    </div>
+                    <!-------- Waitlist (Borrow Request for unavailable item) -------->
+                    <div
+                      class="dropdown-item"
+                      v-else-if="request.item && !request.item.available"
+                    >
+                      <p
+                        >{{ request.requestor.first_name }}
+                        {{ request.requestor.last_name }} has been added to the waitlist
+                        for {{ request.item.name }}.&nbsp;<small>{{
+                          relativeDate(request.created_at)
+                        }}</small></p
+                      >
+                      <button
+                        class="btn btn-xs btn-icon btn-circle btn-secondary ml-10"
+                        v-on:click.prevent="markAsRead(request)"
+                        ><i class="fas fa-times"></i
+                      ></button>
+                      <hr />
+                    </div>
+                    <!-------- Friend Request -------->
+                    <div class="dropdown-item" v-else>
+                      <p
+                        >{{ request.requestor.first_name }}
+                        {{ request.requestor.last_name }} sent you a friend
+                        request.&nbsp;<small>{{
+                          relativeDate(request.created_at)
+                        }}</small></p
+                      >
+                      <button
+                        class="btn btn-info btn-xs"
+                        v-on:click="acceptFriendship(request)"
+                        >Accept</button
+                      >
+                      <button
+                        class="btn btn-secondary btn-xs"
+                        v-on:click="rejectFriendship(request)"
+                        >Reject</button
+                      >
+                      <button
+                        class="btn btn-xs btn-icon btn-circle btn-secondary ml-10"
+                        v-on:click.prevent="markAsRead(request)"
+                        ><i class="fas fa-times"></i
+                      ></button>
+                    </div>
+                  </div>
                 </div>
                 <div class="dropdown-divider"></div>
-                <router-link class="dropdown-item" to="/my-account"
-                  >Edit Settings</router-link
-                > </div
+                <router-link class="dropdown-item" to="/requests"
+                  >View all requests</router-link
+                ></div
               ><!-- / dropdown-menu --></li
-            ></ul
+            > </ul
           ><!-- / navbar-nav -->
 
           <ul class="navbar-button p-0 m-0 ml-30">
@@ -112,11 +166,33 @@
             </li>
           </ul>
           <ul class="navbar-nav auto"
-            ><li class="nav-item" v-if="isLoggedIn()">
-              <router-link to="/logout" class="nav-link smooth-scroll"
-                >Logout</router-link
-              >
-            </li></ul
+            ><li class="nav-item dropdown" v-if="isLoggedIn()">
+              <router-link
+                class="nav-link dropdown-toggle px-0 pt-20 pb-0"
+                id="dropdown-center-nav"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+                to="/my-account"
+                ><img
+                  :src="currentUser().image_url"
+                  alt=""
+                  class="promo-box-image circle mb-25 raised-sm"
+                  style="width:35px;"
+              /></router-link>
+              <div class="dropdown-menu" aria-labelledby="dropdown-center-nav">
+                <div class="dropdown-item">
+                  <h6 class="box-title mb-15"
+                    >{{ currentUser().first_name }} {{ currentUser().last_name }}</h6
+                  >
+                  <p>@{{ currentUser().username }}</p>
+                </div>
+                <div class="dropdown-divider"></div>
+                <router-link class="dropdown-item" to="/my-account"
+                  >My Account</router-link
+                ><router-link to="/logout" class="dropdown-item">Logout</router-link></div
+              ><!-- / dropdown-menu --></li
+            ></ul
           >
         </div></div
       > </nav
@@ -128,11 +204,7 @@
     ></a>
 
     <footer class="big bg-primary dark pt-0">
-      <img
-        src="/assets/images/angle-up-light.svg"
-        alt=""
-        class="img-top mb-60"
-      />
+      <img src="/assets/images/angle-up-light.svg" alt="" class="img-top mb-60" />
       <div class="container">
         <div class="row v-center mobile-center">
           <div class="col-md-4 footer-left-area tablet-top">
@@ -141,18 +213,7 @@
               <a href="https://kingstudio.ro" target="_blank">KingStudio</a></p
             >
           </div>
-          <div class="col-md-8 footer-right-area">
-            <p>
-              <a href="index.html" class="text-link mr-20">Home</a>
-              <a href="index.html#landing-pages" class="text-link mr-20"
-                >Landing Pages</a
-              >
-              <a href="index.html#templates" class="text-link mr-20"
-                >Templates</a
-              >
-              <a href="components.html" class="text-link">Components</a>
-            </p>
-          </div>
+          <div class="col-md-8 footer-right-area"> </div>
         </div>
       </div>
     </footer>
@@ -160,14 +221,48 @@
 </template>
 
 <script>
-// import axios from "axios";
+import axios from "axios";
+import Vue2Filters from "vue2-filters";
+import ActionCable from "actioncable";
+import moment from "moment";
+
 export default {
+  mixins: [Vue2Filters.mixin],
   data: function() {
     return {
-      username: ""
+      requests: "",
+      read: true
     };
   },
-  created: function() {},
+  created: function() {
+    if (this.isLoggedIn()) {
+      axios.get("/api/borrow-requests").then(response => {
+        this.requests = response.data.borrow_requests.concat(
+          response.data.friend_requests
+        );
+        if (this.requests.find(request => !request.read)) {
+          this.read = false;
+        }
+        console.log(this.requests);
+      });
+      var cable = ActionCable.createConsumer("ws://localhost:3000/cable");
+      cable.subscriptions.create("RequestsChannel", {
+        connected: () => {
+          // Called when the subscription is ready for use on the server
+          console.log("Connected to RequestsChannel");
+        },
+        disconnected: () => {
+          // Called when the subscription has been terminated by the server
+        },
+        received: data => {
+          // Called when there's incoming data on the websocket for this channel
+          console.log("Data from RequestsChannel:", data);
+          this.read = false;
+          this.requests.unshift(data); // update the messages in real time
+        }
+      });
+    }
+  },
   methods: {
     isLoggedIn: function() {
       return localStorage.getItem("jwt");
@@ -186,6 +281,82 @@ export default {
     },
     currentUser: function() {
       return JSON.parse(localStorage.user);
+    },
+    relativeDate: function(date) {
+      return moment(date).fromNow();
+    },
+    acceptBorrowRequest: function(request) {
+      var params = {
+        status: "accepted",
+        read: true
+      };
+      axios
+        .patch(`/api/borrow-requests/${request.id}`, params)
+        .then(response => {
+          console.log(response.data);
+          var index = this.requests.indexOf(request);
+          this.requests.splice(index, 1);
+        })
+        .catch(error => {
+          console.log(error.response.data);
+        });
+    },
+    rejectBorrowRequest: function(request) {
+      axios
+        .delete(`/api/borrow-requests/${request.id}`)
+        .then(response => {
+          console.log(response.data);
+          var index = this.requests.indexOf(request);
+          this.requests.splice(index, 1);
+        })
+        .catch(error => {
+          console.log(error.response.data);
+        });
+    },
+    acceptFriendship: function(request) {
+      var params = {
+        status: "accepted",
+        read: true
+      };
+      axios
+        .patch(`/api/friendships/${request.id}`, params)
+        .then(response => {
+          console.log(response.data);
+          var index = this.requests.indexOf(request);
+          this.requests.splice(index, 1);
+        })
+        .catch(error => {
+          console.log(error.response.data);
+        });
+    },
+    rejectFriendship: function(request) {
+      axios
+        .delete(`/api/friendships/${request.id}`)
+        .then(response => {
+          console.log(response.data);
+          var index = this.requests.indexOf(request);
+          this.requests.splice(index, 1);
+        })
+        .catch(error => {
+          console.log(error.response.data);
+        });
+    },
+    markAsRead: function(request) {
+      if (request.item) {
+        axios
+          .patch(`/api/borrow-requests/${request.id}`, { read: true })
+          .then(response => {
+            console.log(response.data);
+            var index = this.requests.indexOf(request);
+            this.requests.splice(index, 1);
+          });
+      } else {
+        axios.patch(`/api/friendships/${request.id}`, { read: true }).then(response => {
+          console.log(response.data);
+          var index = this.requests.indexOf(request);
+          this.requests.splice(index, 1);
+        });
+      }
     }
   }
 };

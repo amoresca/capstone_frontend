@@ -33,11 +33,14 @@
         ><!-- / navbar-toggler -->
 
         <div class="collapse navbar-collapse" id="navbar-toggle">
-          <ul class="navbar-nav m-auto">
-            <li class="nav-item" v-if="!isLoggedIn()">
+          <ul v-if="!isLoggedIn()" class="navbar-nav ml-auto">
+            <li class="nav-item">
               <router-link to="/login" class="nav-link smooth-scroll">Login</router-link>
             </li>
-            <li class="nav-item" v-if="isLoggedIn()">
+          </ul>
+
+          <ul v-if="isLoggedIn()" class="navbar-nav m-auto">
+            <li class="nav-item">
               <router-link
                 class="nav-link"
                 :to="`/users/${currentUser().username}`"
@@ -45,22 +48,17 @@
                 ><i class="fas fa-boxes fs-14 mr-5"></i> My Stuff</router-link
               >
             </li>
-            <li class="nav-item" v-if="isLoggedIn()">
+            <li class="nav-item">
               <router-link class="nav-link" to="/friends"
                 ><i class="fas fa-users fs-14 mr-5"></i> Friends</router-link
               ></li
             >
-            <li class="nav-item" v-if="isLoggedIn()">
+            <li class="nav-item">
               <router-link class="nav-link" to="/items"
                 ><i class="fas fa-people-arrows fs-14 mr-5"></i> Borrow</router-link
               ></li
             >
-            <li
-              id="notifications"
-              class="nav-item"
-              :class="{ 'unread dropdown': !read }"
-              v-if="isLoggedIn()"
-            >
+            <li id="notifications" class="nav-item" :class="{ 'unread dropdown': !read }">
               <router-link
                 class="nav-link"
                 :class="{ 'dropdown-toggle': !read }"
@@ -154,13 +152,9 @@
             > </ul
           ><!-- / navbar-nav -->
 
-          <ul class="navbar-button p-0 m-0 ml-30">
+          <ul v-if="!isLoggedIn()" class="navbar-button p-0 m-0 ml-30">
             <li class="nav-item">
-              <router-link
-                v-if="!isLoggedIn()"
-                to="/signup"
-                class="btn btn-sm btn-primary-gradient"
-                ><i class="fas fa-shopping-cart fs-14 mr-5"></i>
+              <router-link to="/signup" class="btn btn-sm btn-primary-gradient">
                 <span>Signup</span></router-link
               >
             </li>

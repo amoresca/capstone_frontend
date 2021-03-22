@@ -1,16 +1,12 @@
 <template>
   <div class="login">
     <div class="main-container">
-      <section id="signup" class="lg">
+      <section id="signup" class="xl">
         <div class="container">
           <form v-on:submit.prevent="submit()">
             <h1>Login</h1>
             <ul>
-              <li
-                class="text-danger"
-                v-for="error in errors"
-                v-bind:key="error"
-              >
+              <li class="text-danger" v-for="error in errors" v-bind:key="error">
                 {{ error }}
               </li>
             </ul>
@@ -51,8 +47,7 @@ export default {
         .post("/api/sessions", params)
         .then(response => {
           // Set default header
-          axios.defaults.headers.common["Authorization"] =
-            "Bearer " + response.data.jwt;
+          axios.defaults.headers.common["Authorization"] = "Bearer " + response.data.jwt;
 
           // Store user info in localstorage
           localStorage.setItem("jwt", response.data.jwt);

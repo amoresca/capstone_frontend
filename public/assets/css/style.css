@@ -5350,6 +5350,7 @@ textarea {
   padding-bottom: 0;
   margin-right: 0.75rem;
   margin-left: 0;
+  text-shadow: 2px 2px 4px #e2ebfc, -2px -2px 4px #fff;
 }
 
 .navbar-brand img {
@@ -12433,6 +12434,7 @@ body .no-shadow:focus {
   height: 0;
   padding-bottom: 100%;
   overflow: hidden;
+  background-color: white;
 }
 
 .item-thumbnail img {
@@ -12459,6 +12461,10 @@ body .no-shadow:focus {
 
 #notifications .dropdown-item {
   white-space: unset;
+}
+
+#edit-account label {
+  min-width: 100px;
 }
 
 /*------- Multiselect ------*/
@@ -12595,11 +12601,15 @@ body .no-shadow:focus {
 .multiselect__tags {
   min-height: 40px;
   display: block;
-  padding: 8px 40px 0 8px;
+  padding: 1rem 1.85rem 5px 1.25rem;
   border-radius: 5px;
-  border: 1px solid #e8e8e8;
-  background: #fff;
+  border: none;
+  box-shadow: 2px 2px 4px #e2ebfc, -2px -2px 4px #fff;
+  background: #f5f9fe;
   font-size: 14px;
+}
+.multiselect__tags input:focus {
+  box-shadow: none !important;
 }
 .multiselect__tag {
   position: relative;
@@ -12609,7 +12619,7 @@ body .no-shadow:focus {
   margin-right: 10px;
   color: #fff;
   line-height: 1;
-  background: #41b883;
+  background: #2a73dd;
   margin-bottom: 5px;
   white-space: nowrap;
   overflow: hidden;
@@ -12633,7 +12643,7 @@ body .no-shadow:focus {
 }
 .multiselect__tag-icon:after {
   content: "\D7";
-  color: #266d4d;
+  color: #fff;
   font-size: 14px;
 }
 .multiselect__tag-icon:focus,

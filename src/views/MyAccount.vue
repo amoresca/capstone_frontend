@@ -5,11 +5,7 @@
         <h1 class="fs-70">My Account</h1>
         <h5 class="mb-30">View and update your account settings</h5> </div
       ><!-- / container -->
-      <img
-        src="/assets/images/angle-light.svg"
-        class="img-bottom mt-200"
-        alt=""
-      />
+      <img src="/assets/images/angle-light.svg" class="img-bottom mt-200" alt="" />
     </header>
     <div class="main-container">
       <section class="lg">
@@ -20,11 +16,7 @@
                 <tr>
                   <td><b>Profile Picture</b></td>
                   <td
-                    ><img
-                      :src="user.image_url"
-                      alt=""
-                      class="circle"
-                      style="width:150px"
+                    ><img :src="user.image_url" alt="" class="circle" style="width:150px"
                   /></td>
                   <td class="text-right"
                     ><a
@@ -93,37 +85,21 @@
             <form method="dialog">
               <h2>Edit Profile</h2>
               <ul>
-                <li
-                  class="text-danger"
-                  v-for="error in errors"
-                  v-bind:key="error"
-                >
+                <li class="text-danger" v-for="error in errors" v-bind:key="error">
                   {{ error }}
                 </li>
               </ul>
               <div class="form-group">
                 <label>Profile Picture:</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="user.image_url"
-                />
+                <input type="text" class="form-control" v-model="user.image_url" />
               </div>
               <div class="form-group">
                 <label>First Name:</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="user.first_name"
-                />
+                <input type="text" class="form-control" v-model="user.first_name" />
               </div>
               <div class="form-group">
                 <label>Last Name:</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="user.last_name"
-                />
+                <input type="text" class="form-control" v-model="user.last_name" />
               </div>
               <div class="form-group">
                 <label>Email:</label>
@@ -132,11 +108,7 @@
               <hr />
               <div class="form-group">
                 <label>New Password:</label>
-                <input
-                  type="password"
-                  class="form-control"
-                  v-model="password"
-                />
+                <input type="password" class="form-control" v-model="password" />
               </div>
               <div class="form-group">
                 <label>Password Confirmation:</label>
@@ -154,6 +126,98 @@
               <button>Close</button>
             </form>
           </dialog>
+
+          <!--- Modal --->
+          <div
+            class="modal fade default-modal"
+            id="edit-account"
+            tabindex="-1"
+            style="display: none;"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header"> <h6 class="modal-title">Edit Profile</h6> </div
+                ><!-- / modal-header -->
+                <div class="modal-body">
+                  <div class="container full-width">
+                    <ul v-if="errors">
+                      <li class="text-danger" v-for="error in errors" v-bind:key="error">
+                        {{ error }}
+                      </li>
+                    </ul>
+                    <div class="form-inline">
+                      <div class="form-group w-100 mb-15">
+                        <label class="mr-20 justify-content-start">Profile Picture</label>
+                        <input
+                          type="text"
+                          class="form-control flex-grow-1"
+                          v-model="user.image_url"
+                        />
+                      </div>
+                      <div class="form-group w-100 mb-15">
+                        <label class="mr-20 justify-content-start">First Name</label>
+                        <input
+                          type="text"
+                          class="form-control flex-grow-1"
+                          v-model="user.first_name"
+                        />
+                      </div>
+                      <div class="form-group w-100 mb-15">
+                        <label class="mr-20 justify-content-start">Last Name</label>
+                        <input
+                          type="text"
+                          class="form-control flex-grow-1"
+                          v-model="user.last_name"
+                        />
+                      </div>
+                      <div class="form-group w-100 mb-15">
+                        <label class="mr-20 justify-content-start">Email</label>
+                        <input
+                          type="email"
+                          class="form-control flex-grow-1"
+                          v-model="user.email"
+                        />
+                      </div>
+                    </div>
+                    <hr />
+                    <div class="form-inline">
+                      <div class="form-group w-100 mb-15">
+                        <label class="mr-20 justify-content-start">New Password:</label>
+                        <input
+                          type="password"
+                          class="form-control flex-grow-1"
+                          v-model="password"
+                        />
+                      </div>
+                      <div class="form-group w-100 mb-15">
+                        <label class="mr-20 justify-content-start"
+                          >Password Confirmation:</label
+                        >
+                        <input
+                          type="password"
+                          class="form-control flex-grow-1"
+                          v-model="passwordConfirmation"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-warning mr-10"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                    >Close</button
+                  >
+                  <button v-on:click.prevent="editUser()" class="btn btn-sm btn-success"
+                    >Save</button
+                  ></div
+                ><!-- / modal-footer --> </div
+              ><!-- / modal-content --> </div
+            ><!-- / modal-dialog -->
+          </div>
         </div>
       </section></div
     ><!-- / main-container -->
@@ -162,6 +226,7 @@
 
 <script>
 import axios from "axios";
+/*global $*/
 
 export default {
   data: function() {
@@ -169,7 +234,7 @@ export default {
       user: {},
       password: "",
       passwordConfirmation: "",
-      errors: []
+      errors: ""
     };
   },
   created: function() {
@@ -181,7 +246,7 @@ export default {
   },
   methods: {
     openEditModal: function() {
-      document.querySelector("dialog").showModal();
+      $("#edit-account").modal("show");
     },
     editUser: function() {
       var username = this.$parent.currentUser().username;
@@ -201,7 +266,7 @@ export default {
           // console.log(response.data);
           this.$parent.setCurrentUser(response.data);
 
-          document.querySelector("dialog").close();
+          $("#edit-account").modal("hide");
           this.password = "";
           this.passwordConfirmation = "";
         })

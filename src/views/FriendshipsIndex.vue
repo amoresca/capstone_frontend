@@ -7,8 +7,7 @@
 
           <div class="col-md-6 text-right">
             <button
-              data-toggle="modal"
-              data-target="#user-search"
+              v-on:click="openFriendModal()"
               class="btn btn-success-gradient m-y-10 mr-10"
             >
               <i class="fas fa-plus mr-10"></i> Add Friend
@@ -16,11 +15,7 @@
           </div>
         </div>
       </div>
-      <img
-        src="/assets/images/angle-light.svg"
-        class="img-bottom mt-100"
-        alt=""
-      />
+      <img src="/assets/images/angle-light.svg" class="img-bottom mt-100" alt="" />
     </header>
     <div class="main-container">
       <section id="signup" class="md">
@@ -61,16 +56,12 @@
             >
               <div class="card w-rised-icon lg-icon">
                 <div class="card-body text-center">
-                  <div
-                    class="rised-icon bg-light circle icon-lg pos-center raised"
-                  >
+                  <div class="rised-icon bg-light circle icon-lg pos-center raised">
                     <router-link :to="`/users/${friend.username}`">
                       <img
                         :src="friend.image_url"
                         class="circle"
-                        :alt="
-                          `${friend.first_name} ${friend.last_name} Profile Picture`
-                        "
+                        :alt="`${friend.first_name} ${friend.last_name} Profile Picture`"
                         width="50"
                       />
                     </router-link>
@@ -114,7 +105,7 @@
                 ><!-- / modal-header -->
                 <div class="modal-body">
                   <div class="container full-width">
-                    <form method="dialog">
+                    <form>
                       <div
                         class="alert alert-warning alert-dismissible fade show"
                         role="alert"
@@ -151,8 +142,9 @@
                           />
                         </div>
                       </div>
-                      <div v-if="searchUsers">
+                      <div class="row" v-if="searchUsers">
                         <div
+                          class="col-lg-6 d-flex mb-3"
                           v-for="user in filterBy(
                             users,
                             searchUsers,
@@ -162,21 +154,30 @@
                           )"
                           :key="user.id"
                         >
-                          <img :src="user.image_url" alt="" width="50" />
-                          <h3>{{ user.first_name }} {{ user.last_name }}</h3>
-                          <p>{{ user.username }}</p>
-                          <button
-                            v-if="user.friends == false"
-                            v-on:click.prevent="createFriendship(user.id)"
-                          >
-                            Add Friend
-                          </button>
-                          <small v-else
-                            >You are already friends with this user</small
-                          >
-                          <hr />
+                          <div class="mr-20" style="width:80px;"
+                            ><img :src="user.image_url" alt="" class="circle"
+                          /></div>
+                          <div class="">
+                            <p class="mb-0">
+                              <a href="#" v-on:click.prevent="viewUser(user.username)">
+                                <strong
+                                  >{{ user.first_name }} {{ user.last_name }}</strong
+                                >
+                              </a>
+                            </p>
+                            <p>@{{ user.username }}</p>
+                            <button
+                              class="btn btn-primary btn-xs mt-5"
+                              v-if="user.friends == false"
+                              v-on:click.prevent="createFriendship(user.id)"
+                            >
+                              Add Friend
+                            </button>
+                            <small v-else>You are already friends with this user</small>
+                          </div>
                         </div>
-                      </div> </form></div
+                      </div>
+                    </form></div
                   ><!-- / container --> </div
                 ><!-- / modal-body -->
                 <div class="modal-footer"> </div
@@ -193,6 +194,7 @@
 <script>
 import axios from "axios";
 import Vue2Filters from "vue2-filters";
+/*global $*/
 
 export default {
   mixins: [Vue2Filters.mixin],
@@ -217,7 +219,11 @@ export default {
         this.users = response.data;
         console.log(response.data);
       });
-      document.querySelector("dialog").showModal();
+      $("#user-search").modal("show");
+    },
+    viewUser: function(username) {
+      $("#user-search").modal("hide");
+      this.$router.push(`/users/${username}`);
     },
     createFriendship: function(userId) {
       axios

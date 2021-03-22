@@ -60,42 +60,46 @@
                   'tags'
                 )"
                 :key="item.id"
-                class="col-lg-6"
+                class="col-lg-6 mb-30"
               >
-                <div :class="{ 'bg-light-grey': !item.available }" class="promo-box p-20">
-                  <div class="d-flex">
-                    <div class="col pl-0 pr-5" style="max-width: 100px;">
-                      <div class="item-thumbnail rounded">
-                        <a href="#" v-on:click.prevent="openShowModal(item)">
-                          <img :src="item.image_url" :alt="item.name" />
-                        </a>
-                      </div>
-                    </div>
-                    <div class="col">
-                      <p class="card-title"
-                        ><a
-                          href="#"
-                          class="stretched-link fs-16"
-                          v-on:click.prevent="openShowModal(item)"
-                          >{{ item.name }}</a
-                        ></p
-                      >
-                      <p class="mb-0">Category: {{ item.category.name }}</p>
-                      <img
-                        :src="item.user.image_url"
-                        :alt="
-                          `${item.user.first_name} ${item.user.last_name} Profile Picture`
-                        "
-                        class="circle float-right"
-                        style="width:50px;"
-                      />
-                      <p>
-                        <span v-for="tag in item.tags" :key="tag.id"
-                          >#{{ tag.name }}
-                        </span>
-                      </p>
+                <div
+                  :class="{ 'bg-light-grey': !item.available }"
+                  class="promo-box d-flex p-15 mb-0"
+                  style="height:100%;"
+                >
+                  <div class="col pl-0 pr-5" style="max-width: 100px;">
+                    <div class="item-thumbnail rounded">
+                      <a href="#" v-on:click.prevent="openShowModal(item)">
+                        <img :src="item.image_url" :alt="item.name" />
+                      </a>
                     </div>
                   </div>
+                  <div class="col pr-0 d-flex flex-column">
+                    <p class="card-title"
+                      ><a
+                        href="#"
+                        class="stretched-link fs-16"
+                        v-on:click.prevent="openShowModal(item)"
+                        >{{ item.name }}</a
+                      ></p
+                    >
+                    <p class="mb-0">Category: {{ item.category.name }}</p>
+                    <p v-if="item.tags.length > 0">
+                      <span v-for="tag in item.tags" :key="tag.id">#{{ tag.name }} </span>
+                    </p>
+                  </div>
+                  <router-link
+                    :to="`/users/${item.user.username}`"
+                    :title="`${item.user.first_name} ${item.user.last_name}`"
+                    class="mt-auto"
+                    ><img
+                      :src="item.user.image_url"
+                      :alt="
+                        `${item.user.first_name} ${item.user.last_name} Profile Picture`
+                      "
+                      class="circle"
+                      style="width:50px;"
+                  /></router-link>
                 </div>
               </div>
             </div>
@@ -105,34 +109,85 @@
             <router-link to="/friends"><button>Add Friends</button></router-link>
           </p>
 
-          <!-- Show Dialog -->
-          <dialog>
-            <form method="dialog" v-if="currentItem">
-              <h2>{{ currentItem.name }}</h2>
-              <h3>{{ currentItem.category.name }}</h3>
-              <img :src="currentItem.image_url" :alt="currentItem.name" width="200" />
-              <button
-                v-if="currentItem.available"
-                v-on:click.prevent="createBorrowRequest(currentItem)"
-              >
-                Request to Borrow
-              </button>
-              <button v-else v-on:click.prevent="createWaitlistRequest(currentItem)"
-                >Add Me to Waitlist</button
-              >
-              <hr />
-              <button>Close</button>
-            </form>
-          </dialog></div
-        ></section
-      ></div
-    >
+          <!--- Modal --->
+          <div
+            class="modal fade default-modal"
+            id="current-item"
+            tabindex="-1"
+            style="display: none;"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content" v-if="currentItem">
+                <div class="modal-header">
+                  <h6 class="modal-title">{{ currentItem.name }}</h6> </div
+                ><!-- / modal-header -->
+                <div class="modal-body">
+                  <div class="container full-width">
+                    <!-- <ul>
+                      <li class="text-danger" v-for="error in errors" v-bind:key="error">
+                        {{ error }}
+                      </li>
+                    </ul> -->
+                    <div class="d-flex">
+                      <div class="mr-20" style="width:100px;"
+                        ><img
+                          :src="currentItem.image_url"
+                          :alt="currentItem.name"
+                          width="200"
+                      /></div>
+                      <div
+                        ><p><strong>Category:</strong> {{ currentItem.category.name }}</p>
+                        <p v-if="currentItem.tags.length > 0"
+                          ><strong>Tags: </strong>
+                          <span v-for="tag in currentItem.tags" :key="tag.id"
+                            >#{{ tag.name }}
+                          </span>
+                        </p>
+                        <p
+                          ><strong>Status: </strong
+                          ><span v-if="currentItem.available">Available</span
+                          ><span v-else>Unavailable</span></p
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-warning mr-10"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                    >Close</button
+                  >
+                  <button
+                    class="btn btn-sm btn-info"
+                    v-if="currentItem.available"
+                    v-on:click.prevent="createBorrowRequest(currentItem)"
+                  >
+                    Request to Borrow
+                  </button>
+                  <button
+                    class="btn btn-sm btn-info"
+                    v-else
+                    v-on:click.prevent="createWaitlistRequest(currentItem)"
+                    >Add Me to Waitlist</button
+                  ></div
+                ><!-- / modal-footer --> </div
+              ><!-- / modal-content --> </div
+            ><!-- / modal-dialog -->
+          </div>
+        </div>
+      </section>
+    </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import Vue2Filters from "vue2-filters";
+/*global $*/
 
 export default {
   mixins: [Vue2Filters.mixin],
@@ -160,7 +215,7 @@ export default {
     openShowModal: function(item) {
       this.currentItem = item;
       // console.log(this.currentItem);
-      document.querySelector("dialog").showModal();
+      $("#current-item").modal("show");
     },
     createBorrowRequest: function(item) {
       axios

@@ -4,21 +4,15 @@
       <div class="container">
         <div class="row v-center">
           <div class="col-md-6 tablet-top-45">
-            <h1 class="page-title text-primary">Neumo</h1>
-            <h5 class="mb-30">Multipurpose Neumorphism Theme</h5>
+            <h1 class="page-title text-primary">Borrowr</h1>
+            <h5 class="mb-30">The app for keeping track of your stuff</h5>
             <p class="lead mb-25"
-              >Neumo is a Premium Neumorphism Style Bootstrap Theme, designed
-              and developed with attention to details. Neumo comes with 200+
-              reusable components, 12 Landing Pages and 12 Multipage
-              Templates.</p
+              >Borrowr is for friends who want to share the wealth. Whether it's boards
+              games, camping gear, or your favorite hoodie, always know who's borrowing
+              your stuff at any given moment.</p
             >
-            <a
-              href="#landing-pages"
-              class="btn btn-primary m-5 ml-0 smooth-scroll"
-              ><i class="fas fa-star mr-5"></i> <span>Landing Pages</span></a
-            >
-            <a href="#templates" class="btn btn-primary m-5 ml-0 smooth-scroll"
-              ><i class="fas fa-layer-group mr-5"></i> <span>Templates</span></a
+            <router-link to="/signup" class="btn btn-primary m-5 ml-0">
+              <span>Get Started Today</span></router-link
             > </div
           ><!-- column -->
           <div class="col-md-6">

@@ -104,10 +104,14 @@
               </div>
             </div>
           </div>
-          <p v-else>
-            Looks like you haven't added any friends yet.<br />
-            <router-link to="/friends"><button>Add Friends</button></router-link>
-          </p>
+          <div v-else class="text-center">
+            <h4 class="mt-80 mb-30">Nothing to see here... Try adding some friends!</h4>
+            <router-link to="/friends"
+              ><button class="btn btn-outline-success mb-80"
+                >Add Friend</button
+              ></router-link
+            >
+          </div>
 
           <!--- Modal --->
           <div

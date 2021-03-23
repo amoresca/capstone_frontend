@@ -34,13 +34,13 @@
               />
             </div>
           </div>
-          <div v-else>
-            <h4 class="mt-40">
-              You don't have any friends yet.
-              <a href="#" v-on:click.prevent="openFriendModal()"
-                >Click here to find friends.</a
-              >
+          <div v-else class="text-center">
+            <h4 class="mt-80 mb-30">
+              You don't have any friends yet!
             </h4>
+            <button v-on:click="openFriendModal()" class="btn btn-outline-success mb-80"
+              >Click here to find friends</button
+            >
           </div>
           <div class="row">
             <div

@@ -5,59 +5,115 @@
         <h1 class="page-title text-primary">Signup</h1>
         <h5 class="mb-30">Create an account to get started</h5> </div
       ><!-- / container -->
-      <img
-        src="/assets/images/angle-light.svg"
-        class="img-bottom mt-100"
-        alt=""
-      />
+      <img src="/assets/images/angle-light.svg" class="img-bottom mt-100" alt="" />
     </header>
-    <div class="main-container"
-      ><section id="signup" class="lg"
-        ><div class="container"
-          ><ul>
+    <div class="main-container">
+      <section id="signup" class="lg">
+        <div class="container">
+          <ul>
             <li class="text-danger" v-for="error in errors" v-bind:key="error">
               {{ error }}
             </li>
           </ul>
           <form v-on:submit.prevent="submit()">
-            <div class="form-group">
-              <label>First Name:</label>
-              <input type="text" class="form-control" v-model="firstName" />
-            </div>
-            <div class="form-group">
-              <label>Last Name:</label>
-              <input type="text" class="form-control" v-model="lastName" />
-            </div>
-            <div class="form-group">
-              <label>Username:</label>
-              <input type="text" class="form-control" v-model="username" />
-            </div>
-            <div class="form-group">
-              <label>Email:</label>
-              <input type="email" class="form-control" v-model="email" />
-            </div>
-            <div class="form-group">
-              <label>Password:</label>
-              <input type="password" class="form-control" v-model="password" />
-            </div>
-            <div class="form-group">
-              <label>Password confirmation:</label>
-              <input
-                type="password"
-                class="form-control"
-                v-model="passwordConfirmation"
-              />
-            </div>
-            <div class="form-group">
-              <label>Image URL:</label>
-              <input type="text" class="form-control" v-model="imageUrl" />
-            </div>
-            <input
-              type="submit"
-              class="btn btn-primary"
-              value="Submit"
-            /> </form></div></section
-    ></div>
+            <div class="row">
+              <div class="col-md-6 sub-col-left">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="firstName"
+                    placeholder=" First Name"
+                    required=""
+                    style="font-family:'Font Awesome 5 Free', sans-serif !important; font-weight: 600"
+                    aria-required="true"
+                  /> </div
+                ><!-- / form-group --> </div
+              ><!-- / column -->
+
+              <div class="col-md-6 sub-col-right">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="lastName"
+                    placeholder=" Last Name"
+                    required=""
+                    style="font-family:'Font Awesome 5 Free', sans-serif !important; font-weight: 600"
+                    aria-required="true"
+                  /> </div
+                ><!-- / form-group --> </div
+              ><!-- / column -->
+
+              <div class="col-md-6 sub-col-left">
+                <div class="form-group">
+                  <input
+                    type="email"
+                    class="form-control"
+                    v-model="email"
+                    placeholder=" Email"
+                    required=""
+                    style="font-family:'Font Awesome 5 Free', sans-serif !important; font-weight: 600"
+                    aria-required="true"/></div
+                ><!-- / form-group --> </div
+              ><!-- / column -->
+
+              <div class="col-md-6 sub-col-right">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="username"
+                    placeholder=" Username"
+                    required=""
+                    style="font-family:'Font Awesome 5 Free', sans-serif !important; font-weight: 600"
+                    aria-required="true"
+                /></div> </div
+              ><!-- / column -->
+
+              <div class="col-md-12">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="imageUrl"
+                    placeholder=" Image URL (optional)"
+                    style="font-family:'Font Awesome 5 Free', sans-serif !important; font-weight: 600"
+                    aria-required="true"
+                /></div> </div
+              ><!-- / column -->
+
+              <div class="col-md-6 sub-col-left">
+                <div class="form-group">
+                  <input
+                    type="password"
+                    class="form-control"
+                    v-model="password"
+                    placeholder=" Password"
+                    required=""
+                    style="font-family:'Font Awesome 5 Free', sans-serif !important; font-weight: 600"
+                    aria-required="true"/></div
+                ><!-- / form-group --> </div
+              ><!-- / column -->
+
+              <div class="col-md-6 sub-col-right">
+                <div class="form-group">
+                  <input
+                    type="password"
+                    class="form-control"
+                    v-model="passwordConfirmation"
+                    placeholder=" Confirm Password"
+                    required=""
+                    style="font-family:'Font Awesome 5 Free', sans-serif !important; font-weight: 600"
+                    aria-required="true"
+                /></div> </div
+              ><!-- / column --></div
+            ><!-- / row -->
+            <button type="submit" class="btn btn-primary-gradient mt-30">Submit</button>
+          </form>
+        </div>
+      </section>
+    </div>
   </div>
 </template>
 

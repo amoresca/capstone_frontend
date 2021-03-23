@@ -12513,8 +12513,9 @@ body .no-shadow:focus {
 .multiselect,
 .multiselect__input,
 .multiselect__single {
-  font-family: inherit;
-  font-size: 16px;
+  /* font-family: inherit; */
+  /* font-size: 16px; */
+  font-weight: 600;
   -ms-touch-action: manipulation;
   touch-action: manipulation;
 }

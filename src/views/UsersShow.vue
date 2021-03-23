@@ -25,7 +25,7 @@
           </div>
           <div class="col-lg-7">
             <h1>{{ user.first_name }} {{ user.last_name }}</h1>
-            <p>@{{ user.username }}</p>
+            <h6>@{{ user.username }}</h6>
           </div>
           <div class="col-lg-3 text-right">
             <button
@@ -35,8 +35,11 @@
               <span class="fas fa-trash mr-10"></span
               ><span class="m-y-10">Remove Friend</span>
             </button>
-            <button v-if="user.friends == false" class="btn btn-success-gradient mt-40"
-              ><span class="fas fa-plus"></span
+            <button
+              v-if="user.friends == false"
+              v-on:click="createFriendship(user.id)"
+              class="btn btn-success-gradient mt-40"
+              ><span class="fas fa-plus mr-10"></span
               ><span class="m-y-10">Add Friend</span></button
             ></div
           >
@@ -61,8 +64,8 @@
           </div>
           <div v-if="$parent.isCurrentUser()">
             <!-- Create Item Form -->
-            <div v-if="showForm" class="promo-box">
-              <h2>Add an Item</h2>
+            <div class="promo-box collapse" id="add-item">
+              <h3 class="section-title text-center mb-30">Add an Item</h3>
               <div
                 v-if="newItemMessage"
                 class="alert alert-success alert-dismissible fade show"
@@ -137,7 +140,9 @@
                   ></multiselect>
                 </div>
                 <div class="col">
-                  <button>Add Item</button>
+                  <button class="btn btn-sm btn-success-gradient mt-30"
+                    ><i class="fas fa-plus mr-10"></i> Add Item</button
+                  >
                 </div>
               </form>
             </div>
@@ -212,9 +217,11 @@
               </div>
             </div>
           </div>
-          <div v-else-if="$parent.isCurrentUser()">
-            <h4 class="m-y-80 text-center">Looks like you don't have any items yet!</h4>
-            <button v-on:click="toggleForm()">Click here to get started</button>
+          <div v-else-if="$parent.isCurrentUser()" class="text-center">
+            <h4 class="mt-80 mb-30">Looks like you don't have any items yet!</h4>
+            <button v-on:click="toggleForm()" class="btn btn-outline-success mb-80"
+              >Click here to get started</button
+            >
           </div>
           <h4 v-else-if="user.friends" class="m-y-80 text-center"
             >Looks like {{ user.first_name }} doesn't have any items yet...</h4
@@ -493,7 +500,6 @@ export default {
       user: "",
       categories: [],
       tags: [],
-      showForm: false,
       newName: "",
       newCategory: "",
       newImage: "",
@@ -524,7 +530,7 @@ export default {
       });
     },
     toggleForm: function() {
-      this.showForm = !this.showForm;
+      $("#add-item").collapse("toggle");
     },
     addTag(newTagName) {
       // Create a new tag in the database
@@ -631,6 +637,18 @@ export default {
         })
         .catch(error => {
           this.errors = error.response.data.errors;
+        });
+    },
+    createFriendship: function(userId) {
+      axios
+        .post("/api/friendships", { requestee_id: userId })
+        .then(response => {
+          console.log(response.data);
+          this.alert = "Friend request sent!";
+          this.alertColor = "success";
+        })
+        .catch(error => {
+          console.log(error.response.data);
         });
     }
   }

@@ -159,7 +159,7 @@
               >
             </li>
           </ul>
-          <ul class="navbar-nav auto"
+          <ul class="navbar-nav ml-20"
             ><li class="nav-item dropdown" v-if="isLoggedIn()">
               <router-link
                 class="nav-link dropdown-toggle px-0 pt-20 pb-0"

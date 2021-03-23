@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <header class="lg pb-0 bg-light">
+    <header class="lg pb-0 bg-light mb-100">
       <div class="container">
         <div class="row v-center">
           <div class="col-md-6 tablet-top-45">
@@ -17,14 +17,13 @@
           ><!-- column -->
           <div class="col-md-6">
             <img
-              src="assets/images/placeholder-tall.jpg"
+              src="https://images.unsplash.com/photo-1550376026-7375b92bb318?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=952&q=80"
               alt=""
-              class="hide-tablet"
+              class="hide-tablet rounded"
             /> </div
           ><!-- column --> </div
         ><!-- / row --> </div
       ><!-- / container -->
-      <img src="assets/images/angle.svg" class="img-bottom" alt="" />
     </header>
   </div>
 </template>

@@ -65,6 +65,10 @@ export default {
           localStorage.setItem("jwt", response.data.jwt);
           this.$parent.setCurrentUser(response.data);
 
+          // Get unread notifications and connect to RequestsChannel
+          this.$parent.getRequests();
+          this.$parent.subscribeToChannel();
+
           // Redirect to My Items page
           this.$router.push(`/users/${response.data.username}`);
         })

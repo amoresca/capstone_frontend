@@ -229,33 +229,8 @@ export default {
     };
   },
   created: function() {
-    if (this.isLoggedIn()) {
-      axios.get("/api/borrow-requests").then(response => {
-        this.requests = response.data.borrow_requests.concat(
-          response.data.friend_requests
-        );
-        if (this.requests.find(request => !request.read)) {
-          this.read = false;
-        }
-        console.log(this.requests);
-      });
-      var cable = ActionCable.createConsumer("ws://localhost:3000/cable");
-      cable.subscriptions.create("RequestsChannel", {
-        connected: () => {
-          // Called when the subscription is ready for use on the server
-          console.log("Connected to RequestsChannel");
-        },
-        disconnected: () => {
-          // Called when the subscription has been terminated by the server
-        },
-        received: data => {
-          // Called when there's incoming data on the websocket for this channel
-          console.log("Data from RequestsChannel:", data);
-          this.read = false;
-          this.requests.unshift(data); // update the messages in real time
-        }
-      });
-    }
+    this.getRequests();
+    this.subscribeToChannel();
   },
   methods: {
     isLoggedIn: function() {
@@ -275,6 +250,42 @@ export default {
     },
     currentUser: function() {
       return JSON.parse(localStorage.user);
+    },
+    getRequests: function() {
+      if (this.isLoggedIn()) {
+        axios.get("/api/borrow-requests").then(response => {
+          this.requests = response.data.borrow_requests.concat(
+            response.data.friend_requests
+          );
+          if (this.requests.find(request => !request.read)) {
+            this.read = false;
+          }
+          console.log(this.requests);
+        });
+      }
+    },
+    subscribeToChannel: function() {
+      if (this.isLoggedIn()) {
+        var cable = ActionCable.createConsumer("ws://localhost:3000/cable");
+        cable.subscriptions.create("RequestsChannel", {
+          connected: () => {
+            // Called when the subscription is ready for use on the server
+            console.log("Connected to RequestsChannel");
+          },
+          disconnected: () => {
+            // Called when the subscription has been terminated by the server
+          },
+          received: data => {
+            // Called when there's incoming data on the websocket for this channel
+            console.log("Data from RequestsChannel:", data);
+            this.read = false;
+            console.log(data.requestee_username, this.currentUser().username);
+            if (data.requestee_username === this.currentUser().username) {
+              this.requests.unshift(data); // update the messages in real time
+            }
+          }
+        });
+      }
     },
     relativeDate: function(date) {
       return moment(date).fromNow();

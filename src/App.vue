@@ -292,7 +292,6 @@ export default {
             // Called when there's incoming data on the websocket for this channel
             console.log("Data from RequestsChannel:", data);
             this.read = false;
-            console.log(data.requestee_username, this.currentUser().username);
             if (data.requestee_username === this.currentUser().username) {
               this.requests.unshift(data); // update the messages in real time
             }

@@ -14,10 +14,11 @@
         <div class="container">
           <!-- Alert -->
           <div
-            class="alert alert-warning alert-dismissible fade show"
+            class="alert alert-success alert-dismissible fade show"
             role="alert"
             v-if="alert"
           >
+            <span class="far fa-check-square fs-22 mr-15"></span>
             <strong>{{ alert }}</strong>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true">&times;</span>
@@ -227,7 +228,7 @@ export default {
         .then(response => {
           console.log(response.data);
           this.alert = "Borrow request sent!";
-          document.querySelector("dialog").close();
+          $("#current-item").modal("hide");
         })
         .catch(error => {
           this.errors = error.response.data.errors;
@@ -239,7 +240,7 @@ export default {
         .then(response => {
           console.log(response.data);
           this.alert = "You've been added to the waitlist.";
-          document.querySelector("dialog").close();
+          $("#current-item").modal("hide");
         })
         .catch(error => {
           this.errors = error.response.data.errors;

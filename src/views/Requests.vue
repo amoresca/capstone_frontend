@@ -33,43 +33,49 @@
                   )"
                   :key="request.id"
                 >
-                  <div class="col-lg-6 pl-0">
+                  <div class="col-lg-4 col-xl-6 pl-0">
                     <img
                       :src="request.item.image_url"
                       alt=""
                       class="rounded-10 raised-sm mb-15"
                     />
                   </div>
-                  <div class="col-lg-6">
-                    <router-link
-                      :to="`/users/${request.requestor.username}`"
-                      class="float-left mr-10"
-                    >
-                      <img
-                        :src="request.requestor.image_url"
-                        alt=""
-                        class="mt-35 mb-25 raised-sm circle"
-                        style="width:50px;"
-                      />
-                    </router-link>
-                    <p class="mt-35 mb-25"
-                      >{{ request.requestor.first_name }} {{ request.requestor.last_name
-                      }}<br />
-                      wants to borrow
-                    </p>
-                    <h6 class="box-title mb-30" style="clear:both">{{
+                  <div
+                    class="col-lg-8 col-xl-6 d-flex flex-column justify-content-center"
+                  >
+                    <div>
+                      <router-link
+                        :to="`/users/${request.requestor.username}`"
+                        class="float-left mr-10"
+                      >
+                        <img
+                          :src="request.requestor.image_url"
+                          alt=""
+                          class="mb-2 mb-xl-4 raised-sm circle"
+                          style="width:50px;"
+                        />
+                      </router-link>
+                      <p class="mb-2 mb-xl-4"
+                        >{{ request.requestor.first_name }}
+                        {{ request.requestor.last_name }}<br />
+                        wants to borrow
+                      </p>
+                    </div>
+                    <h6 class="box-title mb-2 mb-xl-4" style="clear:both">{{
                       request.item.name
                     }}</h6>
 
-                    <button
-                      v-on:click="acceptBorrowRequest(request)"
-                      class="btn btn-outline-primary mr-10 btn-sm p-x-30 p-y-10"
-                      >Accept</button
-                    >
-                    <button
-                      v-on:click="rejectBorrowRequest(request)"
-                      class="btn btn-danger btn-sm"
-                      >Reject</button
+                    <div
+                      ><button
+                        v-on:click="acceptBorrowRequest(request)"
+                        class="btn btn-outline-primary mr-10 btn-sm p-x-30 p-y-10"
+                        >Accept</button
+                      >
+                      <button
+                        v-on:click="rejectBorrowRequest(request)"
+                        class="btn btn-danger btn-sm"
+                        >Reject</button
+                      ></div
                     ></div
                   >
                 </div>
@@ -175,6 +181,7 @@
 import axios from "axios";
 import Vue2Filters from "vue2-filters";
 import moment from "moment";
+/*global $*/
 
 export default {
   mixins: [Vue2Filters.mixin],
@@ -210,7 +217,6 @@ export default {
         .delete(`/api/borrow-requests/${request.id}`)
         .then(response => {
           console.log(response.data);
-          this.alert = "Borrow request rejected.";
           var index = this.requests.borrow_requests.indexOf(request);
           this.requests.borrow_requests.splice(index, 1);
         })
@@ -247,5 +253,10 @@ export default {
       return moment(date).fromNow();
     }
   }
+  // mounted: function() {
+  //   $(function() {
+  //     $('[data-toggle="tooltip"]').tooltip();
+  //   });
+  // }
 };
 </script>

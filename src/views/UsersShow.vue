@@ -318,10 +318,13 @@
                     <p
                       ><strong
                         >Currently borrowed by:
-                        <router-link
-                          :to="`/users/${currentItem.borrow_request.user.username}`"
+                        <a
+                          href="#"
+                          v-on:click.prevent="
+                            closeAndGo(currentItem.borrow_request.user.username)
+                          "
                           >{{ currentItem.borrow_request.user.first_name }}
-                          {{ currentItem.borrow_request.user.last_name }}</router-link
+                          {{ currentItem.borrow_request.user.last_name }}</a
                         ></strong
                       ></p
                     >
@@ -573,6 +576,10 @@ export default {
       this.currentItem = item;
       // console.log(this.currentItem);
       $("#item-show").modal("show");
+    },
+    closeAndGo: function(username) {
+      $("#item-show").modal("hide");
+      this.$router.push(`/users/${username}`);
     },
     openEditModal: function() {
       $("#item-show").modal("hide");

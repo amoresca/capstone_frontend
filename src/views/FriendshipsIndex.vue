@@ -8,7 +8,7 @@
           <div class="col-md-6 text-right">
             <button
               v-on:click="openFriendModal()"
-              class="btn btn-success-gradient m-y-10 mr-10"
+              class="btn btn-success-gradient m-y-10 mr-10 raised-primary"
             >
               <i class="fas fa-plus mr-10"></i> Add Friend
             </button>
@@ -54,7 +54,7 @@
               )"
               :key="friend.id"
             >
-              <div class="card w-rised-icon lg-icon">
+              <div class="card w-rised-icon lg-icon raised move">
                 <div class="card-body text-center">
                   <div class="rised-icon bg-light circle icon-lg pos-center raised">
                     <router-link :to="`/users/${friend.username}`">
@@ -71,7 +71,7 @@
                       >{{ friend.first_name }} {{ friend.last_name }}</h5
                     >
                   </router-link>
-                  <p class="card-text">@{{ friend.username }}</p>
+                  <p class="card-text mt-5">@{{ friend.username }}</p>
                   <button
                     v-on:click="deleteFriendship(friend)"
                     class="btn btn-danger btn-xs"
@@ -107,10 +107,10 @@
                   <div class="container full-width">
                     <form>
                       <div
-                        class="alert alert-warning alert-dismissible fade show"
+                        class="alert alert-success alert-dismissible fade show"
                         role="alert"
                         v-if="alert"
-                      >
+                        ><span class="far fa-check-square fs-22 mr-15"></span>
                         <strong>{{ alert }}</strong>
                         <button
                           type="button"

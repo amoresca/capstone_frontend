@@ -9,7 +9,7 @@
           <div class="col-md-6 text-right">
             <button
               v-on:click="toggleForm()"
-              class="btn btn-success-gradient m-y-10 mr-10"
+              class="btn btn-success-gradient raised-primary m-y-10 mr-10"
             >
               <i class="fas fa-plus mr-10"></i> Add Item
             </button>

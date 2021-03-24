@@ -83,7 +83,7 @@
                         }}</small></p
                       >
                       <button
-                        class="btn btn-info btn-xs"
+                        class="btn btn-info btn-xs mr-10"
                         v-on:click="acceptBorrowRequest(request)"
                         >Accept</button
                       >
@@ -93,9 +93,10 @@
                         >Reject</button
                       >
                       <button
-                        class="btn btn-xs btn-icon btn-circle btn-secondary ml-10"
+                        class="btn btn-xs btn-icon btn-circle btn-secondary"
+                        style="float: right;"
                         v-on:click.prevent="markAsRead(request)"
-                        ><i class="fas fa-times"></i
+                        ><span class="fas fa-times"></span
                       ></button>
                     </div>
                     <!-------- Waitlist (Borrow Request for unavailable item) -------->
@@ -111,9 +112,10 @@
                         }}</small></p
                       >
                       <button
-                        class="btn btn-xs btn-icon btn-circle btn-secondary ml-10"
+                        class="btn btn-xs btn-icon btn-circle btn-secondary"
+                        style="float: right;"
                         v-on:click.prevent="markAsRead(request)"
-                        ><i class="fas fa-times"></i
+                        ><span class="fas fa-times"></span
                       ></button>
                       <hr />
                     </div>
@@ -127,7 +129,7 @@
                         }}</small></p
                       >
                       <button
-                        class="btn btn-info btn-xs"
+                        class="btn btn-info btn-xs mr-10"
                         v-on:click="acceptFriendship(request)"
                         >Accept</button
                       >
@@ -137,9 +139,10 @@
                         >Reject</button
                       >
                       <button
-                        class="btn btn-xs btn-icon btn-circle btn-secondary ml-10"
+                        class="btn btn-xs btn-icon btn-circle btn-secondary"
+                        style="float: right;"
                         v-on:click.prevent="markAsRead(request)"
-                        ><i class="fas fa-times"></i
+                        ><span class="fas fa-times"></span
                       ></button>
                     </div>
                   </div>

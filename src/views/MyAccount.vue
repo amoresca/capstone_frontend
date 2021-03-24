@@ -1,11 +1,11 @@
 <template>
   <div class="my-account">
-    <header class="pt-200 pb-0 bg-primary dark text-center">
-      <div class="container pt-70 pb-50">
-        <h1 class="fs-70">My Account</h1>
+    <header class="pt-200 pb-0 bg-light-grey">
+      <div class="container">
+        <h1 class="page-title text-primary">My Account</h1>
         <h5 class="mb-30">View and update your account settings</h5> </div
       ><!-- / container -->
-      <img src="/assets/images/angle-light.svg" class="img-bottom mt-200" alt="" />
+      <img src="/assets/images/angle-light.svg" class="img-bottom mt-100" alt="" />
     </header>
     <div class="main-container">
       <section class="lg">

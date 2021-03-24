@@ -4,11 +4,7 @@
       <div class="container">
         <h1>Requests</h1>
       </div>
-      <img
-        src="/assets/images/angle-light.svg"
-        class="img-bottom mt-100"
-        alt=""
-      />
+      <img src="/assets/images/angle-light.svg" class="img-bottom mt-100" alt="" />
     </header>
     <div class="main-container">
       <section class="lg">
@@ -18,12 +14,7 @@
             role="alert"
             v-if="alert"
           >
-            <button
-              type="button"
-              class="close"
-              data-dismiss="alert"
-              aria-label="Close"
-            >
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true" class="fas fa-times fs-16"></span>
             </button>
             <span class="fas fa-exclamation-circle fs-22 mr-15"></span>
@@ -31,13 +22,10 @@
           </div>
           <div class="row">
             <div class="col-lg-6 pr-lg-5">
-              <h2 class="mb-50"
-                ><i class="fas fa-people-arrows fs-34 mr-5"></i> Borrow
-                Requests</h2
-              >
+              <h2 class="section-title mb-50 h3 text-center">Borrow Requests</h2>
               <div v-if="requests.borrow_requests.length > 0">
                 <div
-                  class="promo-box promo-left"
+                  class="promo-box row p-20"
                   v-for="request in filterBy(
                     requests.borrow_requests,
                     true,
@@ -45,39 +33,45 @@
                   )"
                   :key="request.id"
                 >
-                  <div class="promo-container-big">
-                    <div class="promo-big">
-                      <router-link :to="`/users/${request.requestor.username}`"
-                        ><img
-                          :src="request.requestor.image_url"
-                          alt=""
-                          class="promo-box-image mb-25 raised-sm circle"
-                      /></router-link> </div
-                    ><!-- / promo-big -->
-                    <h5 class="box-title mb-15"
-                      >{{ request.requestor.first_name }}
-                      {{ request.requestor.last_name }}
-                      wants to borrow:
-                    </h5>
-                    <h6 class="box-description mb-15">{{
-                      request.item.name
-                    }}</h6>
+                  <div class="col-lg-6 pl-0">
                     <img
                       :src="request.item.image_url"
                       alt=""
                       class="rounded-10 raised-sm mb-15"
                     />
+                  </div>
+                  <div class="col-lg-6">
+                    <router-link
+                      :to="`/users/${request.requestor.username}`"
+                      class="float-left mr-10"
+                    >
+                      <img
+                        :src="request.requestor.image_url"
+                        alt=""
+                        class="mt-35 mb-25 raised-sm circle"
+                        style="width:50px;"
+                      />
+                    </router-link>
+                    <p class="mt-35 mb-25"
+                      >{{ request.requestor.first_name }} {{ request.requestor.last_name
+                      }}<br />
+                      wants to borrow
+                    </p>
+                    <h6 class="box-title mb-30" style="clear:both">{{
+                      request.item.name
+                    }}</h6>
+
                     <button
                       v-on:click="acceptBorrowRequest(request)"
-                      class="btn btn-outline-primary pill mr-25"
+                      class="btn btn-outline-primary mr-10 btn-sm p-x-30 p-y-10"
                       >Accept</button
                     >
                     <button
                       v-on:click="rejectBorrowRequest(request)"
-                      class="btn btn-danger pill"
+                      class="btn btn-danger btn-sm"
                       >Reject</button
                     ></div
-                  ><!-- / promo-container -->
+                  >
                 </div>
                 <h3 class="mt-50 mb-20">
                   <i class="fas fa-clipboard-list mr-5"></i> Waitlist
@@ -113,9 +107,7 @@
                       {{ request.requestor.last_name }}
                       wants to borrow:
                     </h5>
-                    <h6 class="box-description mb-15">{{
-                      request.item.name
-                    }}</h6> </div
+                    <h6 class="box-description mb-15">{{ request.item.name }}</h6> </div
                   ><!-- / promo-container -->
                   <div class="text-right">
                     <small>{{ relativeDate(request.created_at) }}</small>
@@ -123,52 +115,54 @@
                 </div>
               </div>
               <div v-else>
-                <h5 class="mt-80">
+                <h5 class="mt-80 text-center">
                   You have no pending borrow requests.
                 </h5>
               </div>
             </div>
             <div class="col-lg-6 pl-lg-5">
-              <h2 class="mb-80"
-                ><i class="fas fa-users fs-34 mr-5"></i> Friend Requests</h2
-              >
+              <h2 class="section-title mb-80 h3 text-center">Friend Requests</h2>
               <div v-if="requests.friend_requests.length > 0">
                 <div
                   v-for="request in requests.friend_requests"
                   :key="request.id"
-                  class="card w-rised-icon lg-icon"
+                  class="card w-rised-icon lg-icon mb-70"
                 >
                   <div class="card-body text-center">
-                    <div
-                      class="rised-icon bg-light circle icon-lg pos-center raised"
-                    >
-                      <img
-                        :src="request.requestor.image_url"
-                        class="circle"
-                        :alt="
-                          `${request.requestor.first_name} ${request.requestor.last_name} Profile Picture`
-                        "
-                        width="50"/></div
+                    <div class="rised-icon bg-light circle icon-lg pos-center raised">
+                      <router-link :to="`/users/${request.requestor.username}`">
+                        <img
+                          :src="request.requestor.image_url"
+                          class="circle"
+                          :alt="
+                            `${request.requestor.first_name} ${request.requestor.last_name} Profile Picture`
+                          "
+                          width="50"
+                        /> </router-link></div
                     ><!-- / rised-icon -->
-                    <h5 class="card-title mt-25"
-                      >{{ request.requestor.first_name }}
-                      {{ request.requestor.last_name }}</h5
+                    <router-link :to="`/users/${request.requestor.username}`"
+                      ><h5 class="card-title mt-25"
+                        >{{ request.requestor.first_name }}
+                        {{ request.requestor.last_name }}</h5
+                      ></router-link
                     >
-                    <p class="card-text">@{{ request.requestor.username }}</p>
+                    <p class="card-text mt-5">@{{ request.requestor.username }}</p>
                     <button
                       v-on:click="acceptFriendship(request)"
-                      class="btn btn-outline-primary pill mr-25"
+                      class="btn btn-outline-primary mr-10 btn-sm p-x-30 p-y-10"
                       >Accept</button
                     >
                     <button
                       v-on:click="rejectFriendship(request)"
-                      class="btn btn-danger pill"
+                      class="btn btn-danger btn-sm"
                       >Reject</button
                     > </div
                   ><!-- / card-body -->
                 </div></div
               >
-              <div v-else><h5>You have no pending friend requests.</h5></div>
+              <div v-else
+                ><h5 class="text-center">You have no pending friend requests.</h5></div
+              >
             </div>
           </div>
         </div>

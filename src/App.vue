@@ -104,20 +104,20 @@
                       class="dropdown-item"
                       v-else-if="request.item && !request.item.available"
                     >
-                      <p
-                        >{{ request.requestor.first_name }}
-                        {{ request.requestor.last_name }} has been added to the waitlist
-                        for {{ request.item.name }}.&nbsp;<small>{{
-                          relativeDate(request.created_at)
-                        }}</small></p
-                      >
                       <button
                         class="btn btn-xs btn-icon btn-circle btn-secondary"
                         style="float: right;"
                         v-on:click.prevent="markAsRead(request)"
                         ><span class="fas fa-times"></span
                       ></button>
-                      <hr />
+                      <p
+                        >{{ request.requestor.first_name }}
+                        {{ request.requestor.last_name }} has been added to the waitlist
+                        for {{ request.item.name }}.&nbsp;<small
+                          style="white-space: nowrap"
+                          >{{ relativeDate(request.created_at) }}</small
+                        ></p
+                      >
                     </div>
                     <!-------- Friend Request -------->
                     <div class="dropdown-item" v-else>

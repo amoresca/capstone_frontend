@@ -164,14 +164,18 @@
                               </a>
                             </p>
                             <p>@{{ user.username }}</p>
-                            <button
-                              class="btn btn-primary btn-xs mt-5"
-                              v-if="user.friends == false"
-                              v-on:click.prevent="createFriendship(user.id)"
-                            >
-                              Add Friend
-                            </button>
-                            <small v-else>You are already friends with this user</small>
+                            <div v-if="'friends' in user">
+                              <button
+                                class="btn btn-primary-gradient btn-xs mt-5"
+                                v-if="!user.friends"
+                                v-on:click.prevent="createFriendship(user.id)"
+                              >
+                                Add Friend
+                              </button>
+                              <small v-else-if="user.friends"
+                                >You are already friends with this user</small
+                              >
+                            </div>
                           </div>
                         </div>
                       </div>

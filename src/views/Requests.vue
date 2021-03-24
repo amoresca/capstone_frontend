@@ -79,20 +79,11 @@
                     ></div
                   >
                 </div>
-                <h3 class="mt-50 mb-20">
+                <h3 class="mt-50 mb-20 text-center h4">
                   <i class="fas fa-clipboard-list mr-5"></i> Waitlist
-                  <a
-                    href="#x"
-                    class="btn btn-sm btn-icon btn-info btn-circle float-right"
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title=""
-                    data-original-title="Tooltip on top"
-                    ><i class="fas fa-question"></i>
-                  </a>
                 </h3>
                 <div
-                  class="promo-box promo-left pb-20"
+                  class="promo-box promo-left p-20"
                   v-for="request in orderBy(
                     filterBy(requests.borrow_requests, false, 'item.available'),
                     'created_at'
@@ -108,12 +99,12 @@
                           class="promo-box-image mb-25 raised-sm circle"
                       /></router-link> </div
                     ><!-- / promo-big -->
-                    <h5 class="box-title mb-15"
-                      >{{ request.requestor.first_name }}
-                      {{ request.requestor.last_name }}
-                      wants to borrow:
-                    </h5>
-                    <h6 class="box-description mb-15">{{ request.item.name }}</h6> </div
+                    <p class="ml-15 mb-5 pt-10"
+                      >{{ request.requestor.first_name }} {{ request.requestor.last_name
+                      }}<br />
+                      wants to borrow
+                    </p>
+                    <h6 class="ml-15 box-title">{{ request.item.name }}</h6> </div
                   ><!-- / promo-container -->
                   <div class="text-right">
                     <small>{{ relativeDate(request.created_at) }}</small>
@@ -181,7 +172,6 @@
 import axios from "axios";
 import Vue2Filters from "vue2-filters";
 import moment from "moment";
-/*global $*/
 
 export default {
   mixins: [Vue2Filters.mixin],
@@ -194,19 +184,21 @@ export default {
     };
   },
   created: function() {
-    axios.get("/api/borrow-requests").then(response => {
-      this.requests = response.data;
-      console.log(response.data);
-    });
+    this.getBorrowRequests();
   },
   methods: {
+    getBorrowRequests: function() {
+      axios.get("/api/borrow-requests").then(response => {
+        this.requests = response.data;
+        console.log(response.data);
+      });
+    },
     acceptBorrowRequest: function(request) {
       axios
         .patch(`/api/borrow-requests/${request.id}`, { status: "accepted" })
         .then(response => {
           this.alert = response.data.message;
-          var index = this.requests.borrow_requests.indexOf(request);
-          this.requests.borrow_requests.splice(index, 1);
+          this.getBorrowRequests();
         })
         .catch(error => {
           console.log(error.response.data);
@@ -253,10 +245,5 @@ export default {
       return moment(date).fromNow();
     }
   }
-  // mounted: function() {
-  //   $(function() {
-  //     $('[data-toggle="tooltip"]').tooltip();
-  //   });
-  // }
 };
 </script>

@@ -220,7 +220,7 @@ export default {
     },
     acceptFriendship: function(request) {
       axios
-        .patch(`/api/friendships/${request.id}`)
+        .patch(`/api/friendships/${request.id}`, { status: "accepted" })
         .then(response => {
           this.alert = response.data.message;
           var index = this.requests.friend_requests.indexOf(request);
@@ -235,7 +235,7 @@ export default {
         .delete(`/api/friendships/${request.id}`)
         .then(response => {
           console.log(response.data);
-          this.alert = "Friend request removed.";
+          // this.alert = "Friend request removed.";
           var index = this.requests.friend_requests.indexOf(request);
           this.requests.friend_requests.splice(index, 1);
         })

@@ -179,10 +179,13 @@
               /></router-link>
               <div class="dropdown-menu" aria-labelledby="dropdown-center-nav">
                 <div class="dropdown-item">
-                  <h6 class="box-title mb-15"
-                    >{{ currentUser().first_name }} {{ currentUser().last_name }}</h6
+                  <p>You are logged in as</p>
+                  <router-link :to="`/users/${currentUser().username}`" key="$route.path"
+                    ><h6 class="box-title mb-0"
+                      >{{ currentUser().first_name }} {{ currentUser().last_name }}</h6
+                    ></router-link
                   >
-                  <p>@{{ currentUser().username }}</p>
+                  <p class="mb-0">@{{ currentUser().username }}</p>
                 </div>
                 <div class="dropdown-divider"></div>
                 <router-link class="dropdown-item" to="/my-account"
@@ -230,6 +233,13 @@ export default {
       requests: "",
       read: true
     };
+  },
+  watch: {
+    requests: function() {
+      if (this.requests.length == 0) {
+        this.read = true;
+      }
+    }
   },
   created: function() {
     this.getRequests();

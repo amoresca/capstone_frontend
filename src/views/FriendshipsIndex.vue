@@ -45,12 +45,9 @@
           <div class="row">
             <div
               class="col-lg-4"
-              v-for="friend in filterBy(
-                friends,
-                searchFriends,
-                'first_name',
-                'last_name',
-                'username'
+              v-for="friend in orderBy(
+                filterBy(friends, searchFriends, 'first_name', 'last_name', 'username'),
+                'last_name'
               )"
               :key="friend.id"
             >
@@ -83,6 +80,7 @@
               </div>
             </div>
           </div>
+          <!--- User Modal --->
           <div
             class="modal fade"
             id="user-search"

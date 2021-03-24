@@ -3,10 +3,10 @@
     <header class="pt-200 pb-0 bg-primary dark">
       <div class="container">
         <div v-if="$parent.isCurrentUser()" class="row justify-content-between">
-          <div class="col-md-6">
+          <div class="col-sm-6">
             <h1>My Items</h1>
           </div>
-          <div class="col-md-6 text-right">
+          <div class="col-sm-6 text-right">
             <button
               v-on:click="toggleForm()"
               class="btn btn-success-gradient raised-primary m-y-10 mr-10"
@@ -63,7 +63,7 @@
             </button>
           </div>
           <div v-if="$parent.isCurrentUser()">
-            <!-- Create Item Form -->
+            <!------------------- Create Item Form ------------------->
             <div class="promo-box collapse" id="add-item">
               <h3 class="section-title text-center mb-30">Add an Item</h3>
               <div
@@ -149,8 +149,8 @@
           </div>
 
           <div v-if="user.items && user.items.length > 0">
-            <!-- Search Items -->
-            <div class="form-group d-flex mb-50 promo-box">
+            <!------------------- Search Items ------------------->
+            <div class="form-group d-md-flex mb-50 promo-box">
               <label for="search-items" class="col-form-label mr-20">
                 <h4 style="white-space: nowrap">Search Items</h4>
               </label>
@@ -159,7 +159,7 @@
                 id="search-items"
                 placeholder="Search by name or tag..."
                 v-model="searchName"
-                class="form-control mr-20"
+                class="form-control mr-20 mb-3 mb-md-0"
               />
               <label for="category-items">
                 <span class="sr-only">Category:</span>
@@ -185,7 +185,7 @@
                   'tags'
                 )"
                 :key="item.id"
-                class="col-lg-6 mb-30"
+                class="col-md-6 mb-30"
               >
                 <div
                   :class="{ 'bg-light-grey': !item.available }"
@@ -276,7 +276,7 @@
       </section>
     </div>
 
-    <!--- Show Modal --->
+    <!------------------- Show Modal ------------------->
     <div
       class="modal fade default-modal"
       id="item-show"
@@ -382,7 +382,7 @@
       ><!-- / modal-dialog -->
     </div>
 
-    <!--- Edit Modal --->
+    <!------------------- Edit Modal ------------------->
     <div
       class="modal fade default-modal"
       id="item-edit"

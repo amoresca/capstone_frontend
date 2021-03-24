@@ -1,5 +1,6 @@
 <template>
   <div class="requests" v-if="requests">
+    <!------------------- Header ------------------->
     <header class="pt-200 pb-0 bg-primary dark">
       <div class="container">
         <h1>Requests</h1>
@@ -9,6 +10,7 @@
     <div class="main-container">
       <section class="lg">
         <div class="container">
+          <!------------------- Alerts ------------------->
           <div
             class="alert alert-warning alert-dismissible fade show"
             role="alert"
@@ -21,6 +23,7 @@
             <strong>{{ alert }}</strong>
           </div>
           <div class="row">
+            <!------------------- Borrow Requesets ------------------->
             <div class="col-lg-6 pr-lg-5">
               <h2 class="section-title mb-50 h3 text-center">Borrow Requests</h2>
               <div v-if="requests.borrow_requests.length > 0">
@@ -33,7 +36,7 @@
                   )"
                   :key="request.id"
                 >
-                  <div class="col-lg-4 col-xl-6 pl-0">
+                  <div class="col-sm-4 col-md-6 col-lg-4 col-xl-6 pl-0">
                     <img
                       :src="request.item.image_url"
                       alt=""
@@ -41,7 +44,7 @@
                     />
                   </div>
                   <div
-                    class="col-lg-8 col-xl-6 d-flex flex-column justify-content-center"
+                    class="col-sm-8 col-md-6 col-lg-8 col-xl-6 d-flex flex-column justify-content-center"
                   >
                     <div>
                       <router-link
@@ -101,13 +104,13 @@
                     ><!-- / promo-big -->
                     <p class="ml-15 mb-5 pt-10"
                       >{{ request.requestor.first_name }} {{ request.requestor.last_name
-                      }}<br />
+                      }}<br class="d-none d-lg-block" />
                       wants to borrow
                     </p>
                     <h6 class="ml-15 box-title">{{ request.item.name }}</h6> </div
                   ><!-- / promo-container -->
                   <div class="text-right">
-                    <small>{{ relativeDate(request.created_at) }}</small>
+                    <small>{{ $parent.relativeDate(request.created_at) }}</small>
                   </div>
                 </div>
               </div>
@@ -117,7 +120,8 @@
                 </h5>
               </div>
             </div>
-            <div class="col-lg-6 pl-lg-5">
+            <!------------------- Friend Requests ------------------->
+            <div class="col-lg-6 pl-lg-5 mt-4 mt-lg-0">
               <h2 class="section-title mb-80 h3 text-center">Friend Requests</h2>
               <div v-if="requests.friend_requests.length > 0">
                 <div
@@ -171,7 +175,6 @@
 <script>
 import axios from "axios";
 import Vue2Filters from "vue2-filters";
-import moment from "moment";
 
 export default {
   mixins: [Vue2Filters.mixin],
@@ -240,9 +243,6 @@ export default {
         .catch(error => {
           console.log(error.response.data);
         });
-    },
-    relativeDate: function(date) {
-      return moment(date).fromNow();
     }
   }
 };

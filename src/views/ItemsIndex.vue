@@ -4,7 +4,7 @@
       <div class="container">
         <h1>Borrow</h1>
         <h5 class="mb-30">
-          Take a look at your friends' items and request to borrow them
+          Take a look at your friends' items and request to borrow&nbsp;them
         </h5>
       </div>
       <img src="/assets/images/angle-light.svg" class="img-bottom mt-100" alt="" />
@@ -27,7 +27,7 @@
 
           <div v-if="items.length > 0">
             <!-- Search -->
-            <div class="form-group d-flex mb-50 promo-box">
+            <div class="form-group d-md-flex mb-50 promo-box">
               <label for="search-items" class="col-form-label mr-20">
                 <h4 style="white-space: nowrap">Search Items</h4>
               </label>
@@ -36,7 +36,7 @@
                 id="search-items"
                 placeholder="Search by name or tag..."
                 v-model="searchName"
-                class="form-control mr-20"
+                class="form-control mr-20 mb-3 mb-md-0"
               />
               <label for="category-items">
                 <span class="sr-only">Category:</span>
@@ -61,7 +61,7 @@
                   'tags'
                 )"
                 :key="item.id"
-                class="col-lg-6 mb-30"
+                class="col-md-6 mb-30"
               >
                 <div
                   :class="{ 'bg-light-grey': !item.available }"

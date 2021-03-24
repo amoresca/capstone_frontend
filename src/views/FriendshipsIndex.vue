@@ -1,11 +1,12 @@
 <template>
   <div class="friendships-index">
+    <!------------------- Header ------------------->
     <header class="pt-200 pb-0 bg-primary dark">
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col-md-6"><h1>My Friends</h1></div>
+          <div class="col-sm-6"><h1>My Friends</h1></div>
 
-          <div class="col-md-6 text-right">
+          <div class="col-sm-6 text-right">
             <button
               v-on:click="openFriendModal()"
               class="btn btn-success-gradient m-y-10 mr-10 raised-primary"
@@ -18,8 +19,9 @@
       <img src="/assets/images/angle-light.svg" class="img-bottom mt-100" alt="" />
     </header>
     <div class="main-container">
-      <section id="signup" class="md">
+      <section class="md">
         <div class="container">
+          <!------------------- Search ------------------->
           <div v-if="friends.length > 0" class="form-group row mb-50 promo-box">
             <label for="search-friends" class="col-sm-3 col-form-label">
               <h4>Search Friends</h4>
@@ -42,6 +44,7 @@
               >Click here to find friends</button
             >
           </div>
+          <!------------------- Friends ------------------->
           <div class="row">
             <div
               class="col-lg-4"
@@ -80,7 +83,7 @@
               </div>
             </div>
           </div>
-          <!--- User Modal --->
+          <!------------------- User Modal ------------------->
           <div
             class="modal fade"
             id="user-search"

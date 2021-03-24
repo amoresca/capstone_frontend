@@ -1,14 +1,14 @@
 <template>
   <div id="app">
-    <!-- <div id="preloader">
+    <div id="preloader">
       <div class="preloader">
         <span></span>
         <span></span>
       </div>
-    </div> -->
+    </div>
 
     <div id="top"></div>
-
+    <!------------------- Navbar ------------------->
     <nav
       class="navbar navbar-expand-lg navbar-light has-sticky-logo main-nav fixed-top nav-scroll"
     >
@@ -195,14 +195,15 @@
             ></ul
           >
         </div></div
-      > </nav
-    ><!-- / navbar -->
+      >
+    </nav>
     <router-view :key="$route.fullPath" />
 
     <a href="#top" class="scroll-to-top smooth-scroll" data-nav-status="toggle"
       ><i class="fas fa-chevron-up"></i
     ></a>
 
+    <!------------------- Footer ------------------->
     <footer class="big bg-primary dark pt-0">
       <img src="/assets/images/angle-up-light.svg" alt="" class="img-top mb-60" />
       <div class="container">

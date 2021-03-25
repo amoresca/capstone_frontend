@@ -12429,6 +12429,10 @@ body .no-shadow:focus {
 /*---------------- end of media screens ----------------*/
 
 /*------- Casee's Styles ------*/
+.bg-medium-grey {
+  background-color: #dddfe4 !important;
+}
+
 .item-thumbnail {
   position: relative;
   height: 0;

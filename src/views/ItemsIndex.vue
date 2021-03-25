@@ -64,7 +64,7 @@
                 class="col-md-6 mb-30"
               >
                 <div
-                  :class="{ 'bg-light-grey': !item.available }"
+                  :class="{ 'bg-medium-grey': !item.available }"
                   class="promo-box d-flex p-15 mb-0"
                   style="height:100%;"
                 >
